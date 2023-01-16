@@ -52,4 +52,19 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
    </ItemGroup>
 
+   <ItemGroup>
+     <Compile Update="MainPage.xaml.cs">
+       <DependentUpon>MainPage.xaml</DependentUpon>
+     </Compile>
+   </ItemGroup>
+
+   <ItemGroup>
+     <MauiXaml Update="MainCounterPage.xaml">
+       <Generator></Generator>
+     </MauiXaml>
+     <MauiXaml Update="PlayerNamesPage.xaml">
+       <Generator></Generator>
+     </MauiXaml>
+   </ItemGroup>
+
 </Project>
