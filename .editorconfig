@@ -1,0 +1,14 @@
+[*.cs]
+
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = error
+
+# IDE0063: Use simple 'using' statement
+dotnet_diagnostic.IDE0063.severity = none
+
+# Use 4 spaces instead of tabs
+indent_style = space
+indent_size = 4
+
+# IDE0057: Use range operator
+csharp_style_prefer_range_operator = false
