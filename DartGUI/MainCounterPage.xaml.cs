@@ -1,40 +1,73 @@
 ﻿using System.Collections.ObjectModel;
+using DartGUI.Enums;
 
 namespace DartGUI
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainCounterPage
     {
-        private readonly ReadOnlyCollection<Dictionary<string, int>> _rowButtonsData = new List<Dictionary<string, int>>
+
+        #region Local Variables
+
+        internal static readonly ReadOnlyCollection<Dictionary<Dartboard, int>> ROW_BUTTONS_DATA = new List<Dictionary<Dartboard, int>>
         {
             new()
             {
-                { "S1", 1 }, { "S2", 2 }, { "S3", 3 }, { "S4", 4 }, { "S5", 5 },
-                { "S6", 6 }, { "S7", 7 }, { "S8", 8 }, { "S9", 9 }, { "S10", 10 },
-                { "S11", 11 }, { "S12", 12 }, { "S13", 13 }, { "S14", 14 }, { "S15", 15 },
-                { "S16", 16 }, { "S17", 17 }, { "S18", 18 }, { "S19", 19 }, { "S20", 20 }, { "S25", 25 }
+                { Dartboard.S1, 1 }, { Dartboard.S2, 2 }, { Dartboard.S3, 3 }, { Dartboard.S4, 4 }, { Dartboard.S5, 5 },
+                { Dartboard.S6, 6 }, { Dartboard.S7, 7 }, { Dartboard.S8, 8 }, { Dartboard.S9, 9 }, { Dartboard.S10, 10 },
+                { Dartboard.S11, 11 }, { Dartboard.S12, 12 }, { Dartboard.S13, 13 }, { Dartboard.S14, 14 }, { Dartboard.S15, 15 },
+                { Dartboard.S16, 16 }, { Dartboard.S17, 17 }, { Dartboard.S18, 18 }, { Dartboard.S19, 19 }, { Dartboard.S20, 20 }, { Dartboard.S25, 25 }
             },
             new()
             {
-                { "D1", 1 }, { "D2", 2 }, { "D3", 3 }, { "D4", 4 }, { "D5", 5 },
-                { "D6", 6 }, { "D7", 7 }, { "D8", 8 }, { "D9", 9 }, { "D10", 10 },
-                { "D11", 11 }, { "D12", 12 }, { "D13", 13 }, { "D14", 14 }, { "D15", 15 },
-                { "D16", 16 }, { "D17", 17 }, { "D18", 18 }, { "D19", 19 }, { "D20", 20 }, { "D25", 25 }
+                { Dartboard.D1, 2 }, { Dartboard.D2, 4 }, { Dartboard.D3, 6 }, { Dartboard.D4, 8 }, { Dartboard.D5, 10 },
+                { Dartboard.D6, 12 }, { Dartboard.D7, 14 }, { Dartboard.D8, 16 }, { Dartboard.D9, 18 }, { Dartboard.D10, 20 },
+                { Dartboard.D11, 22 }, { Dartboard.D12, 24 }, { Dartboard.D13, 26 }, { Dartboard.D14, 28 }, { Dartboard.D15, 30 },
+                { Dartboard.D16, 32 }, { Dartboard.D17, 34 }, { Dartboard.D18, 36 }, { Dartboard.D19, 38 }, { Dartboard.D20, 40 }, { Dartboard.D25, 50 }
             },
             new()
             {
-                { "T1", 1 }, { "T2", 2 }, { "T3", 3 }, { "T4", 4 }, { "T5", 5 },
-                { "T6", 6 }, { "T7", 7 }, { "T8", 8 }, { "T9", 9 }, { "T10", 10 },
-                { "T11", 11 }, { "T12", 12 }, { "T13", 13 }, { "T14", 14 }, { "T15", 15 },
-                { "T16", 16 }, { "T17", 17 }, { "T18", 18 }, { "T19", 19 }, { "T20", 20 }, { "X", 0 }
+                { Dartboard.T1, 3 }, { Dartboard.T2, 6 }, { Dartboard.T3, 9 }, { Dartboard.T4, 12 }, { Dartboard.T5, 15 },
+                { Dartboard.T6, 18 }, { Dartboard.T7, 21 }, { Dartboard.T8, 24 }, { Dartboard.T9, 27 }, { Dartboard.T10, 30 },
+                { Dartboard.T11, 33 }, { Dartboard.T12, 36 }, { Dartboard.T13, 39 }, { Dartboard.T14, 42 }, { Dartboard.T15, 45 },
+                { Dartboard.T16, 48 }, { Dartboard.T17, 51 }, { Dartboard.T18, 54 }, { Dartboard.T19, 57 }, { Dartboard.T20, 60 }, { Dartboard.X, 0 }
             }
         }.AsReadOnly();
 
-        public MainCounterPage(IReadOnlyList<string> playerNames)
+        private readonly List<string> _playerNames;
+
+        private readonly Game _game;
+
+        #endregion
+
+        #region Constructor
+
+        public MainCounterPage(List<string> playerNames)
         {
+            _playerNames = playerNames;
             InitializeComponent();
             ContentPage.BackgroundColor = DesignColors.BACKGROUND_COLOR;
-            foreach (var dict in _rowButtonsData)
+            _game = new Game(_playerNames);
+            InitializeLayout();
+            _game.SetTableRowsColor(0);
+        }
+
+        #endregion
+
+        #region Operations
+
+        private void OnButton_Clicked(object? sender, EventArgs e)
+        {
+            if (sender is not Button button)
+                return;
+
+            if (Enum.TryParse(typeof(Dartboard), button.Text, out object? result) && result is Dartboard value)
+                _game.AddPoints(value);
+        }
+
+        private void InitializeLayout()
+        {
+            foreach (var dict in ROW_BUTTONS_DATA)
             {
                 var hsl = new HorizontalStackLayout
                 {
@@ -49,9 +82,10 @@ namespace DartGUI
                         Margin = new Thickness(1, 0, 1, 0),
                         Padding = new Thickness(0, 10, 0, 10),
                         WidthRequest = 50,
-                        Text = point.Key,
+                        Text = point.Key.ToString(),
                         TextColor = DesignColors.BUTTON_TEXT_COLOR
                     };
+                    button.Clicked += OnButton_Clicked;
                     hsl.Add(button);
                 }
 
@@ -62,99 +96,99 @@ namespace DartGUI
             {
                 FontSize = 30.0,
                 HorizontalTextAlignment = TextAlignment.Center,
-                Text = "Possible checkout: T20 | T19 | D12 - Shots left: 3",
+                Text = $"Possible checkout: No possible checkouts - Shots left: {_game.ShotsLeft}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
             };
             VerticalStackLayout.Add(currentDataLabel);
+            _game.AddCurrentDataLabel(currentDataLabel);
             var hsl2 = new HorizontalStackLayout
             {
                 HorizontalOptions = LayoutOptions.Center
             };
             var grid = new Grid
             {
-                ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(50), new ColumnDefinition(150),
-                    new ColumnDefinition(75), new ColumnDefinition(75), new ColumnDefinition(125)),
+                ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(50), new ColumnDefinition(250),
+                    new ColumnDefinition(75), new ColumnDefinition(125)),
                 RowDefinitions = new RowDefinitionCollection(new RowDefinition(50), new RowDefinition(50),
                     new RowDefinition(50), new RowDefinition(50), new RowDefinition(50)),
-                VerticalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
             };
-            for(int i = 0; i < playerNames.Count; i++)
+            for (int i = 0; i < _playerNames.Count; i++)
             {
-                var border = new Border
+                // Player ID
+                var playerIdBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
                     StrokeThickness = 2.0,
                 };
-                var label = new Label
+                var playerIdLabel = new Label
                 {
                     FontSize = 30.0,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    Text = (i+1).ToString(),
+                    Text = (i + 1).ToString(),
                     TextColor = DesignColors.LABEL_TEXT_COLOR,
                 };
-                border.Content = label;
-                grid.Add(border, 0, i);
+                playerIdBorder.Content = playerIdLabel;
+                grid.Add(playerIdBorder, 0, i);
 
-                border = new Border
+                // Player Name
+                var playerNameBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
                     StrokeThickness = 2.0,
                 };
-                label = new Label
+                var playerNameLabel = new Label
                 {
                     FontSize = 30.0,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    Text = playerNames[i],
+                    Text = _game.GetPlayerName(i),
                     TextColor = DesignColors.LABEL_TEXT_COLOR
                 };
-                border.Content = label;
-                grid.Add(border, 1, i);
+                playerNameBorder.Content = playerNameLabel;
+                grid.Add(playerNameBorder, 1, i);
 
-                border = new Border
+                // Legs won
+                var legsWonBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
                     StrokeThickness = 2.0,
                 };
-                label = new Label
+                var legsWonLabel = new Label
                 {
                     FontSize = 30.0,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    Text = "0",
+                    Text = _game.GetPlayerLegsWon(i).ToString(),
                     TextColor = DesignColors.LABEL_TEXT_COLOR
                 };
-                border.Content = label;
-                grid.Add(border, 2, i);
-                border = new Border
+                legsWonBorder.Content = legsWonLabel;
+                grid.Add(legsWonBorder, 2, i);
+
+                // Points left
+                var pointsLeftBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
                     StrokeThickness = 2.0,
                 };
-                label = new Label
+                var pointsLeftLabel = new Label
                 {
                     FontSize = 30.0,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    Text = "0",
+                    Text = _game.GetPlayerPointsLeft(i).ToString(),
                     TextColor = DesignColors.LABEL_TEXT_COLOR
                 };
-                border.Content = label;
-                grid.Add(border, 3, i);
-                border = new Border
-                {
-                    Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
-                    StrokeThickness = 2.0,
-                };
-                label = new Label
-                {
-                    FontSize = 30.0,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    Text = "501",
-                    TextColor = DesignColors.LABEL_TEXT_COLOR
-                };
-                border.Content = label;
-                grid.Add(border, 4, i);
+                pointsLeftBorder.Content = pointsLeftLabel;
+                grid.Add(pointsLeftBorder, 3, i);
+
+                _game.AddRowData(playerIdBorder, playerIdLabel,
+                    playerNameBorder, playerNameLabel,
+                    legsWonBorder, legsWonLabel,
+                    pointsLeftBorder, pointsLeftLabel);
             }
             hsl2.Add(grid);
             VerticalStackLayout.Add(hsl2);
         }
+
+        #endregion
+
     }
 }
