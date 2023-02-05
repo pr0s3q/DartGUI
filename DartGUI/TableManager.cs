@@ -17,6 +17,9 @@
 
         private class RowData
         {
+
+            #region Local Variables
+
             private readonly Border _playerIdBorder;
             private readonly Label _playerIdLabel;
 
@@ -28,6 +31,10 @@
 
             private readonly Border _playerPointsLeftBorder;
             private readonly Label _playerPointsLeftLabel;
+
+            #endregion
+
+            #region Constructors
 
             internal RowData(
                 Border playerIdBorder, Label playerIdLabel,
@@ -44,6 +51,10 @@
                 _playerPointsLeftBorder = playerPointsLeftBorder;
                 _playerPointsLeftLabel = playerPointsLeftLabel;
             }
+
+            #endregion
+
+            #region Operations
 
             internal void SetRowColor(RowStatus status)
             {
@@ -83,6 +94,9 @@
                 _playerLegsWonLabel.Text = player.LegsWon.ToString();
                 _playerPointsLeftLabel.Text = player.PointsLeft.ToString();
             }
+
+            #endregion
+
         }
 
         #endregion
@@ -117,10 +131,7 @@
                 playerPointsLeftBorder, playerPointsLeftLabel));
         }
 
-        internal void Update(int playerNumber, Player player)
-        {
-            _rows[playerNumber].SetRowData(player);
-        }
+        internal void Update(int playerNumber, Player player) => _rows[playerNumber].SetRowData(player);
 
         internal void SetColor(int playerIndex)
         {

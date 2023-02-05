@@ -3,7 +3,6 @@ using DartGUI.Enums;
 
 namespace DartGUI
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainCounterPage
     {
 
@@ -54,7 +53,7 @@ namespace DartGUI
 
         #endregion
 
-        #region Operations
+        #region Events
 
         private void OnButton_Clicked(object? sender, EventArgs e)
         {
@@ -64,6 +63,10 @@ namespace DartGUI
             if (Enum.TryParse(typeof(Dartboard), button.Text, out object? result) && result is Dartboard value)
                 _game.AddPoints(value);
         }
+
+        #endregion
+
+        #region Operations
 
         private void InitializeLayout()
         {
@@ -79,9 +82,9 @@ namespace DartGUI
                     {
                         BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
                         FontSize = 25.0,
-                        Margin = new Thickness(1, 0, 1, 0),
-                        Padding = new Thickness(0, 10, 0, 10),
-                        WidthRequest = 50,
+                        Margin = new Thickness(1.0, 0.0, 1.0, 0.0),
+                        Padding = new Thickness(0.0, 10.0, 0.0, 10.0),
+                        WidthRequest = 50.0,
                         Text = point.Key.ToString(),
                         TextColor = DesignColors.BUTTON_TEXT_COLOR
                     };
@@ -107,10 +110,10 @@ namespace DartGUI
             };
             var grid = new Grid
             {
-                ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(50), new ColumnDefinition(250),
-                    new ColumnDefinition(75), new ColumnDefinition(125)),
-                RowDefinitions = new RowDefinitionCollection(new RowDefinition(50), new RowDefinition(50),
-                    new RowDefinition(50), new RowDefinition(50), new RowDefinition(50)),
+                ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(new GridLength(50.0)), new ColumnDefinition(new GridLength(250.0)),
+                    new ColumnDefinition(new GridLength(75.0)), new ColumnDefinition(new GridLength(125.0))),
+                RowDefinitions = new RowDefinitionCollection(new RowDefinition(new GridLength(50.0)), new RowDefinition(new GridLength(50.0)),
+                    new RowDefinition(new GridLength(50.0)), new RowDefinition(new GridLength(50.0)), new RowDefinition(new GridLength(50.0))),
                 VerticalOptions = LayoutOptions.Center
             };
             for (int i = 0; i < _playerNames.Count; i++)

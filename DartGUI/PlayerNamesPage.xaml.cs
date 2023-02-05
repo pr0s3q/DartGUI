@@ -1,9 +1,16 @@
 ﻿namespace DartGUI
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PlayerNamesPage
     {
+
+        #region Local Variables
+
         private readonly int _noOfPlayers;
+
+        #endregion
+
+        #region Constructors
+
         public PlayerNamesPage(int noOfPlayers)
         {
             _noOfPlayers = noOfPlayers;
@@ -18,9 +25,11 @@
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
                     FontSize = 25.0,
                     Placeholder = $"Player {i+1}",
-                    WidthRequest = 300.0,
-                    TextColor = DesignColors.ENTRY_TEXT_COLOR
+                    ReturnType = ReturnType.Next,
+                    TextColor = DesignColors.ENTRY_TEXT_COLOR,
+                    WidthRequest = 300.0
                 };
+                entry.Completed += Entry_Completed;
                 VerticalStackLayout.Add(entry);
             }
 
@@ -28,27 +37,64 @@
             {
                 BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
                 FontSize = 30.0,
-                WidthRequest = 200.0,
                 Text = "Apply",
-                TextColor = DesignColors.BUTTON_TEXT_COLOR
+                TextColor = DesignColors.BUTTON_TEXT_COLOR,
+                WidthRequest = 200.0
             };
             button.Clicked += Button_OnClicked;
             VerticalStackLayout.Add(button);
         }
 
-        private void Button_OnClicked(object sender, EventArgs e)
+        #endregion
+
+        #region Events
+
+        private void Entry_Completed(object? sender, EventArgs e)
         {
-            var playerNames = new List<string>(_noOfPlayers);
             var children = VerticalStackLayout.Children;
+            bool focusNextEntry = false;
+            bool focused = false;
             foreach (var child in children)
             {
-                if (child is Entry entryChild)
+                if (child is not Entry entry)
+                    continue;
+
+                if (focusNextEntry)
                 {
-                    playerNames.Add(entryChild.Text);
+                    entry.Focus();
+                    focused = true;
+                    break;
+                }
+
+                if (entry == sender as Entry)
+                {
+                    focusNextEntry = true;
                 }
             }
 
+            if (!focused)
+                NextPage();
+        }
+
+        private void Button_OnClicked(object? sender, EventArgs e) => NextPage();
+
+        #endregion
+
+        #region Operations
+
+        private void NextPage()
+        {
+            var playerNames = new List<string>(_noOfPlayers);
+            var children = VerticalStackLayout.Children;
+
+            foreach (var child in children)
+                if (child is Entry entryChild)
+                    playerNames.Add(entryChild.Text);
+
             Navigation.PushAsync(new MainCounterPage(playerNames));
         }
+
+        #endregion
+
     }
 }

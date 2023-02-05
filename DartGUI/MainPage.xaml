@@ -20,6 +20,7 @@
                 ClearButtonVisibility="WhileEditing"
                 FontSize="25"
                 WidthRequest="300"
+                Completed="Entry_OnCompleted"
                 x:Name="Entry"></Entry>
             <Button
                 FontSize="30"

@@ -3,10 +3,6 @@
     internal class Player
     {
 
-        #region Local Variables
-
-        #endregion
-
         #region Constructor
 
         internal Player(string name)
