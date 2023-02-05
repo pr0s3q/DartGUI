@@ -211,11 +211,28 @@ namespace DartGUI
         internal void AcceptPoints()
         {
             bool nextLeg = false;
+
+            if (_players[_currentPlayer].PointsLeft < 0)
+            {
+                _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
+                ShotsLeft = 0;
+                UpdateTable();
+            }
+
             if (_players[_currentPlayer].PointsLeft == 0)
             {
-                _players[_currentPlayer].AddWonLeg();
-                NextLeg();
-                nextLeg = true;
+                if (IsLastDouble())
+                {
+                    _players[_currentPlayer].AddWonLeg();
+                    NextLeg();
+                    nextLeg = true;
+                }
+                else
+                {
+                    _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
+                    ShotsLeft = 0;
+                    UpdateTable();
+                }
             }
 
             if (ShotsLeft > 1)
@@ -247,7 +264,7 @@ namespace DartGUI
 
         internal void AddPoints(Dartboard points)
         {
-            if (ShotsLeft == 0)
+            if (ShotsLeft == 0 || _players[_currentPlayer].PointsLeft == 0)
                 return;
 
             int value = -1;
@@ -259,17 +276,12 @@ namespace DartGUI
 
             if (value == -1)
                 return;
+            
+            _pointsList[3 - ShotsLeft] = value;
+            _pointsEnumList[3 - ShotsLeft] = points;
 
             if (!_players[_currentPlayer].TrySubtractPoints(value))
-            {
-                _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
                 ShotsLeft = 0;
-            }
-            else
-            {
-                _pointsList[3 - ShotsLeft] = value;
-                _pointsEnumList[3 - ShotsLeft] = points;
-            }
 
             if (ShotsLeft > 0)
                 ShotsLeft--;
@@ -300,6 +312,21 @@ namespace DartGUI
             return result;
         }
 
+        private bool IsLastDouble()
+        {
+            var lastShot = Dartboard.None;
+            for (int i = _pointsEnumList.Length - 1; i >= 0; i--)
+            {
+                if (_pointsEnumList[i] == Dartboard.None)
+                    continue;
+
+                lastShot = _pointsEnumList[i];
+                break;
+            }
+
+            return MainCounterPage.ROW_BUTTONS_DATA[1].TryGetValue(lastShot, out int _);
+        }
+
         private void CleanPointsList()
         {
             for (int i = 0; i < 3; i++)
@@ -311,7 +338,9 @@ namespace DartGUI
 
         private void CalculatePossibleCheckout(out string checkoutString)
         {
-            if (_players[_currentPlayer].PointsLeft > 170 || !_checkoutDict.TryGetValue(_players[_currentPlayer].PointsLeft, out Checkout? checkout) || checkout.ShootsNeed > ShotsLeft)
+            if (_players[_currentPlayer].PointsLeft > 170 ||
+                !_checkoutDict.TryGetValue(_players[_currentPlayer].PointsLeft, out Checkout? checkout) ||
+                checkout.ShootsNeed > ShotsLeft)
             {
                 checkoutString = "No possible checkouts";
                 return;
@@ -351,8 +380,8 @@ namespace DartGUI
                 return;
 
             int lastPoint = 0;
-
-            for (int i = _pointsList.Length - 1; i >= 0; i--)
+            int i;
+            for (i = _pointsEnumList.Length - 1; i >= 0; i--)
             {
                 if (_pointsEnumList[i] == Dartboard.None)
                     continue;
@@ -364,7 +393,7 @@ namespace DartGUI
             }
 
             _players[_currentPlayer].AddPointsBack(lastPoint);
-            ShotsLeft++;
+            ShotsLeft = 3 - i;
 
             UpdateTable();
             UpdateCurrentDataLabel();

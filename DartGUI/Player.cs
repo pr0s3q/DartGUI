@@ -22,11 +22,10 @@
 
         internal bool TrySubtractPoints(int points)
         {
-            if (PointsLeft - points < 0 || PointsLeft == 1)
-                return false;
+            bool result = !(PointsLeft - points < 0 || PointsLeft == 1);
 
             PointsLeft -= points;
-            return true;
+            return result;
         }
 
         #endregion
