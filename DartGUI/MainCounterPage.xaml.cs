@@ -64,12 +64,26 @@ namespace DartGUI
                 _game.AddPoints(value);
         }
 
+        private void OnAcceptButton_Clicked(object? sender, EventArgs e) => _game.AcceptPoints();
+
+        private void OnUndoButton_Clicked(object? sender, EventArgs e) => _game.Undo();
+
         #endregion
 
         #region Operations
 
         private void InitializeLayout()
         {
+            var lastThreeShotsLabel = new Label
+            {
+                FontSize = 30.0,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = string.Empty,
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            VerticalStackLayout.Add(lastThreeShotsLabel);
+            _game.AddLastThreeShotsLabel(lastThreeShotsLabel);
+
             foreach (var dict in ROW_BUTTONS_DATA)
             {
                 var hsl = new HorizontalStackLayout
@@ -92,6 +106,38 @@ namespace DartGUI
                     hsl.Add(button);
                 }
 
+                VerticalStackLayout.Add(hsl);
+            }
+
+            {
+                var hsl = new HorizontalStackLayout
+                {
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                var button = new Button
+                {
+                    BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
+                    FontSize = 25.0,
+                    Margin = new Thickness(5.0, 0.0, 5.0, 0.0),
+                    Padding = new Thickness(0.0, 5.0, 0.0, 5.0),
+                    WidthRequest = 120.0,
+                    Text = "Undo",
+                    TextColor = DesignColors.BUTTON_TEXT_COLOR
+                };
+                button.Clicked += OnUndoButton_Clicked;
+                hsl.Add(button);
+                button = new Button
+                {
+                    BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
+                    FontSize = 25.0,
+                    Margin = new Thickness(5.0, 0.0, 5.0, 0.0),
+                    Padding = new Thickness(0.0, 5.0, 0.0, 5.0),
+                    WidthRequest = 120.0,
+                    Text = "Accept",
+                    TextColor = DesignColors.BUTTON_TEXT_COLOR
+                };
+                button.Clicked += OnAcceptButton_Clicked;
+                hsl.Add(button);
                 VerticalStackLayout.Add(hsl);
             }
 

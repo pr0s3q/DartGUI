@@ -8,11 +8,15 @@ namespace DartGUI
 
         #region Local Variables
 
+        private Label? _lastThreeShotsLabel;
+
         private Label? _currentDataLabel;
 
         private readonly List<Player> _players;
 
         private readonly TableManager _tableManager;
+
+        private readonly Dartboard[] _pointsEnumList = { Dartboard.None, Dartboard.None, Dartboard.None };
 
         private readonly int[] _pointsList = {0, 0, 0};
 
@@ -204,10 +208,48 @@ namespace DartGUI
 
         #region Operations
 
+        internal void AcceptPoints()
+        {
+            bool nextLeg = false;
+            if (_players[_currentPlayer].PointsLeft == 0)
+            {
+                _players[_currentPlayer].AddWonLeg();
+                NextLeg();
+                nextLeg = true;
+            }
+
+            if (ShotsLeft > 1)
+            {
+                ShotsLeft--;
+                UpdateCurrentDataLabel();
+                UpdateLastThreeShotsLabel();
+                return;
+            }
+
+            ShotsLeft = 3;
+            if (!nextLeg)
+            {
+                if (_players.Count - 1 == _currentPlayer)
+                    _currentPlayer = 0;
+                else
+                    _currentPlayer++;
+            }
+
+            UpdateCurrentDataLabel();
+            CleanPointsList();
+            UpdateLastThreeShotsLabel();
+            SetTableRowsColor(_currentPlayer);
+        }
+
         internal void AddCurrentDataLabel(Label currentDataLabel) => this._currentDataLabel = currentDataLabel;
+
+        internal void AddLastThreeShotsLabel(Label label) => this._lastThreeShotsLabel = label;
 
         internal void AddPoints(Dartboard points)
         {
+            if (ShotsLeft == 0)
+                return;
+
             int value = -1;
             foreach (var dict in MainCounterPage.ROW_BUTTONS_DATA)
             {
@@ -224,37 +266,17 @@ namespace DartGUI
                 ShotsLeft = 0;
             }
             else
-                _pointsList[3 - ShotsLeft] = value;
-
-            bool nextLeg = false;
-            if (_players[_currentPlayer].PointsLeft == 0)
             {
-                _players[_currentPlayer].AddWonLeg();
-                NextLeg();
-                nextLeg = true;
+                _pointsList[3 - ShotsLeft] = value;
+                _pointsEnumList[3 - ShotsLeft] = points;
             }
+
+            if (ShotsLeft > 0)
+                ShotsLeft--;
 
             UpdateTable();
-
-            if (ShotsLeft > 1)
-            {
-                ShotsLeft--;
-                UpdateCurrentDataLabel();
-                return;
-            }
-
-            ShotsLeft = 3;
-            if(!nextLeg)
-            {
-                if (_players.Count - 1 == _currentPlayer)
-                    _currentPlayer = 0;
-                else
-                    _currentPlayer++;
-            }
-
             UpdateCurrentDataLabel();
-            CleanPointsList();
-            SetTableRowsColor(_currentPlayer);
+            UpdateLastThreeShotsLabel();
         }
 
         internal void AddRowData(
@@ -281,7 +303,10 @@ namespace DartGUI
         private void CleanPointsList()
         {
             for (int i = 0; i < 3; i++)
+            {
                 _pointsList[i] = 0;
+                _pointsEnumList[i] = Dartboard.None;
+            }
         }
 
         private void CalculatePossibleCheckout(out string checkoutString)
@@ -320,11 +345,43 @@ namespace DartGUI
 
         internal void SetTableRowsColor(int playerIndex) => _tableManager.SetColor(playerIndex);
 
+        internal void Undo()
+        {
+            if (ShotsLeft == 3)
+                return;
+
+            int lastPoint = 0;
+
+            for (int i = _pointsList.Length - 1; i >= 0; i--)
+            {
+                if (_pointsEnumList[i] == Dartboard.None)
+                    continue;
+
+                lastPoint = _pointsList[i];
+                _pointsList[i] = 0;
+                _pointsEnumList[i] = Dartboard.None;
+                break;
+            }
+
+            _players[_currentPlayer].AddPointsBack(lastPoint);
+            ShotsLeft++;
+
+            UpdateTable();
+            UpdateCurrentDataLabel();
+            UpdateLastThreeShotsLabel();
+        }
+
         private void UpdateCurrentDataLabel()
         {
             CalculatePossibleCheckout(out string checkout);
             var input = $"Possible checkout: {checkout} - Shots left: {ShotsLeft}";
             _currentDataLabel!.Text = input;
+        }
+
+        private void UpdateLastThreeShotsLabel()
+        {
+            _pointsEnumList.GetString(out string result);
+            _lastThreeShotsLabel!.Text = result;
         }
 
         private void UpdateTable()
