@@ -12,9 +12,12 @@
             Entry.BackgroundColor = DesignColors.ENTRY_BACKGROUND_COLOR;
             Entry.TextColor = DesignColors.ENTRY_TEXT_COLOR;
             ContentPage.BackgroundColor = DesignColors.BACKGROUND_COLOR;
-            Label.TextColor = DesignColors.LABEL_TEXT_COLOR;
+            DescriptionLabel1.TextColor = DesignColors.LABEL_TEXT_COLOR;
+            DescriptionLabel2.TextColor = DesignColors.LABEL_TEXT_COLOR;
             Button.BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR;
             Button.TextColor = DesignColors.BUTTON_TEXT_COLOR;
+            CopyrightLabel1.TextColor = DesignColors.LABEL_TEXT_COLOR;
+            CopyrightLabel2.TextColor = DesignColors.LABEL_TEXT_COLOR;
         }
 
         #endregion
