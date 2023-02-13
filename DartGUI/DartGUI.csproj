@@ -41,6 +41,10 @@
      <MtouchLink>SdkOnly</MtouchLink>
    </PropertyGroup>
 
+   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+     <AndroidLinkTool>r8</AndroidLinkTool>
+   </PropertyGroup>
+
    <ItemGroup>
       <!-- App Icon -->
       <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#1e2329" />
