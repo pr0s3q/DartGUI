@@ -64,6 +64,9 @@
    </ItemGroup>
 
    <ItemGroup>
+     <MauiXaml Update="HelpPage.xaml">
+       <Generator></Generator>
+     </MauiXaml>
      <MauiXaml Update="MainCounterPage.xaml">
        <Generator></Generator>
      </MauiXaml>
