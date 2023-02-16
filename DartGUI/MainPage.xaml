@@ -7,47 +7,33 @@
     <ScrollView>
         <VerticalStackLayout
             Spacing="0"
-            Padding="100,0"
-            VerticalOptions="Center">
+            VerticalOptions="Center"
+            x:Name="Vsl">
             <Label
-                FontSize="30"
                 HorizontalTextAlignment="Center"
-                Margin="0,25,0,0"
                 Text="Number of"
                 VerticalTextAlignment="Center"
                 x:Name="DescriptionLabel1"/>
             <Label
-                FontSize="30"
                 HorizontalTextAlignment="Center"
-                Margin="0,0,0,15"
                 Text="players (max 5):"
                 VerticalTextAlignment="Center"
                 x:Name="DescriptionLabel2"/>
             <Entry
                 ClearButtonVisibility="WhileEditing"
-                FontSize="25"
-                Margin="0,10,0,15"
-                WidthRequest="300"
                 Completed="Entry_OnCompleted"
                 x:Name="Entry" />
             <Button
-                FontSize="30"
-                Margin="0,10,0,0"
                 Clicked="ApplyButton_OnClicked"
-                WidthRequest="200"
                 Text="Apply"
                 x:Name="ApplyButton"/>
             <Button
-                FontSize="30"
-                Margin="0,10,0,25"
                 Clicked="HelpButton_OnClicked"
-                WidthRequest="200"
                 Text="Help"
                 x:Name="HelpButton"
                 />
             <Label
                 HorizontalOptions="Center"
-                Margin="0,30,0,0"
                 Padding="0"
                 Text="CrisProgrammerStudio © 2023"
                 VerticalOptions="End"

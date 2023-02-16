@@ -6,16 +6,12 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Spacing="25"
-            Padding="100,25"
             VerticalOptions="Center"
             x:Name="VerticalStackLayout">
             <Label
-                FontSize="30"
                 HorizontalTextAlignment="Center"
                 Text="Apply player names:"
                 VerticalTextAlignment="Center"
-                WidthRequest="300"
                 x:Name="Label" />
         </VerticalStackLayout>
     </ScrollView>

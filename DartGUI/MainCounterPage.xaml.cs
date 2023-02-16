@@ -76,7 +76,7 @@ namespace DartGUI
         {
             var lastThreeShotsLabel = new Label
             {
-                FontSize = 30.0,
+                FontSize = 30.0 * ScaleManager.CurrentManager!.SmallerScale,
                 HorizontalTextAlignment = TextAlignment.Center,
                 Text = string.Empty,
                 TextColor = DesignColors.LABEL_TEXT_COLOR
@@ -95,13 +95,16 @@ namespace DartGUI
                     var button = new Button
                     {
                         BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
-                        FontSize = 25.0,
-                        Margin = new Thickness(1.0, 0.0, 1.0, 0.0),
-                        Padding = new Thickness(0.0, 10.0, 0.0, 10.0),
-                        WidthRequest = 50.0,
+                        FontSize = 25.0 * ScaleManager.CurrentManager.SmallerScale,
+                        Margin = new Thickness(1.0 * ScaleManager.CurrentManager.SmallerScale, 0.0, 1.0 * ScaleManager.CurrentManager.SmallerScale, 0.0),
+                        Padding = new Thickness(0.0, 10.0 * ScaleManager.CurrentManager.HeightScale, 0.0, 10.0 * ScaleManager.CurrentManager.HeightScale),
+                        WidthRequest = 50.0 * ScaleManager.CurrentManager.WidthScale,
+                        HeightRequest = 50.0 * ScaleManager.CurrentManager.HeightScale,
                         Text = point.Key.ToString(),
                         TextColor = DesignColors.BUTTON_TEXT_COLOR
                     };
+                    button.MinimumHeightRequest *= ScaleManager.CurrentManager.HeightScale;
+                    button.MinimumWidthRequest *= ScaleManager.CurrentManager.WidthScale;
                     button.Clicked += OnButton_Clicked;
                     hsl.Add(button);
                 }
@@ -117,25 +120,29 @@ namespace DartGUI
                 var button = new Button
                 {
                     BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
-                    FontSize = 25.0,
-                    Margin = new Thickness(5.0, 0.0, 5.0, 0.0),
-                    Padding = new Thickness(0.0, 5.0, 0.0, 5.0),
-                    WidthRequest = 120.0,
+                    FontSize = 25.0 * ScaleManager.CurrentManager.SmallerScale,
+                    Margin = new Thickness(5.0 * ScaleManager.CurrentManager.WidthScale, 0.0, 5.0 * ScaleManager.CurrentManager.WidthScale, 0.0),
+                    Padding = new Thickness(0.0, 5.0 * ScaleManager.CurrentManager.HeightScale, 0.0, 5.0 * ScaleManager.CurrentManager.HeightScale),
+                    WidthRequest = 120.0 * ScaleManager.CurrentManager.WidthScale,
                     Text = "Undo",
                     TextColor = DesignColors.BUTTON_TEXT_COLOR
                 };
+                button.MinimumHeightRequest *= ScaleManager.CurrentManager.HeightScale;
+                button.MinimumWidthRequest *= ScaleManager.CurrentManager.WidthScale;
                 button.Clicked += OnUndoButton_Clicked;
                 hsl.Add(button);
                 button = new Button
                 {
                     BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
-                    FontSize = 25.0,
-                    Margin = new Thickness(5.0, 0.0, 5.0, 0.0),
-                    Padding = new Thickness(0.0, 5.0, 0.0, 5.0),
-                    WidthRequest = 120.0,
+                    FontSize = 25.0 * ScaleManager.CurrentManager.SmallerScale,
+                    Margin = new Thickness(5.0 * ScaleManager.CurrentManager.WidthScale, 0.0, 5.0 * ScaleManager.CurrentManager.WidthScale, 0.0),
+                    Padding = new Thickness(0.0, 5.0 * ScaleManager.CurrentManager.HeightScale, 0.0, 5.0 * ScaleManager.CurrentManager.HeightScale),
+                    WidthRequest = 120.0 * ScaleManager.CurrentManager.WidthScale,
                     Text = "Accept",
                     TextColor = DesignColors.BUTTON_TEXT_COLOR
                 };
+                button.MinimumHeightRequest *= ScaleManager.CurrentManager.HeightScale;
+                button.MinimumWidthRequest *= ScaleManager.CurrentManager.WidthScale;
                 button.Clicked += OnAcceptButton_Clicked;
                 hsl.Add(button);
                 VerticalStackLayout.Add(hsl);
@@ -143,7 +150,7 @@ namespace DartGUI
 
             var currentDataLabel = new Label
             {
-                FontSize = 30.0,
+                FontSize = 30.0 * ScaleManager.CurrentManager.SmallerScale,
                 HorizontalTextAlignment = TextAlignment.Center,
                 Text = $"Possible checkout: No possible checkouts - Shots left: {_game.ShotsLeft}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
@@ -156,10 +163,17 @@ namespace DartGUI
             };
             var grid = new Grid
             {
-                ColumnDefinitions = new ColumnDefinitionCollection(new ColumnDefinition(new GridLength(50.0)), new ColumnDefinition(new GridLength(250.0)),
-                    new ColumnDefinition(new GridLength(75.0)), new ColumnDefinition(new GridLength(125.0))),
-                RowDefinitions = new RowDefinitionCollection(new RowDefinition(new GridLength(50.0)), new RowDefinition(new GridLength(50.0)),
-                    new RowDefinition(new GridLength(50.0)), new RowDefinition(new GridLength(50.0)), new RowDefinition(new GridLength(50.0))),
+                ColumnDefinitions = new ColumnDefinitionCollection(
+                    new ColumnDefinition(new GridLength(50.0 * ScaleManager.CurrentManager.WidthScale)),
+                    new ColumnDefinition(new GridLength(250.0 * ScaleManager.CurrentManager.WidthScale)),
+                    new ColumnDefinition(new GridLength(75.0 * ScaleManager.CurrentManager.WidthScale)),
+                    new ColumnDefinition(new GridLength(125.0 * ScaleManager.CurrentManager.WidthScale))),
+                RowDefinitions = new RowDefinitionCollection(
+                    new RowDefinition(new GridLength(50.0 * ScaleManager.CurrentManager.HeightScale)),
+                    new RowDefinition(new GridLength(50.0 * ScaleManager.CurrentManager.HeightScale)),
+                    new RowDefinition(new GridLength(50.0 * ScaleManager.CurrentManager.HeightScale)),
+                    new RowDefinition(new GridLength(50.0 * ScaleManager.CurrentManager.HeightScale)),
+                    new RowDefinition(new GridLength(50.0 * ScaleManager.CurrentManager.HeightScale))),
                 VerticalOptions = LayoutOptions.Center
             };
             for (int i = 0; i < _playerNames.Count; i++)
@@ -168,11 +182,11 @@ namespace DartGUI
                 var playerIdBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
-                    StrokeThickness = 2.0,
+                    StrokeThickness = 2.0 * ScaleManager.CurrentManager.SmallerScale,
                 };
                 var playerIdLabel = new Label
                 {
-                    FontSize = 30.0,
+                    FontSize = 30.0 * ScaleManager.CurrentManager.SmallerScale,
                     HorizontalTextAlignment = TextAlignment.Center,
                     Text = (i + 1).ToString(),
                     TextColor = DesignColors.LABEL_TEXT_COLOR,
@@ -184,11 +198,11 @@ namespace DartGUI
                 var playerNameBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
-                    StrokeThickness = 2.0,
+                    StrokeThickness = 2.0 * ScaleManager.CurrentManager.SmallerScale,
                 };
                 var playerNameLabel = new Label
                 {
-                    FontSize = 30.0,
+                    FontSize = 30.0 * ScaleManager.CurrentManager.SmallerScale,
                     HorizontalTextAlignment = TextAlignment.Center,
                     Text = _game.GetPlayerName(i),
                     TextColor = DesignColors.LABEL_TEXT_COLOR
@@ -200,11 +214,11 @@ namespace DartGUI
                 var legsWonBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
-                    StrokeThickness = 2.0,
+                    StrokeThickness = 2.0 * ScaleManager.CurrentManager.SmallerScale,
                 };
                 var legsWonLabel = new Label
                 {
-                    FontSize = 30.0,
+                    FontSize = 30.0 * ScaleManager.CurrentManager.SmallerScale,
                     HorizontalTextAlignment = TextAlignment.Center,
                     Text = _game.GetPlayerLegsWon(i).ToString(),
                     TextColor = DesignColors.LABEL_TEXT_COLOR
@@ -216,11 +230,11 @@ namespace DartGUI
                 var pointsLeftBorder = new Border
                 {
                     Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR),
-                    StrokeThickness = 2.0,
+                    StrokeThickness = 2.0 * ScaleManager.CurrentManager.SmallerScale,
                 };
                 var pointsLeftLabel = new Label
                 {
-                    FontSize = 30.0,
+                    FontSize = 30.0 * ScaleManager.CurrentManager.SmallerScale,
                     HorizontalTextAlignment = TextAlignment.Center,
                     Text = _game.GetPlayerPointsLeft(i).ToString(),
                     TextColor = DesignColors.LABEL_TEXT_COLOR
@@ -235,6 +249,8 @@ namespace DartGUI
             }
             hsl2.Add(grid);
             VerticalStackLayout.Add(hsl2);
+
+            VerticalStackLayout.Spacing *= ScaleManager.CurrentManager.HeightScale;
         }
 
         #endregion
