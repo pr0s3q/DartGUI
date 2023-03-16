@@ -52,7 +52,7 @@
         {
             if (ScaleManager.CurrentManager!.IsDefault)
             {
-                Vsl.Padding = new Thickness(100.0, 0.0);
+                MainVerticalStackLayout.Padding = new Thickness(100.0, 0.0);
 
                 DescriptionLabel1.FontSize = 30.0;
                 DescriptionLabel1.Margin = new Thickness(0.0, 25.0, 0.0, 0.0);
@@ -80,7 +80,7 @@
                 var horizontalScale = ScaleManager.CurrentManager.WidthScale;
                 var smallestScale = ScaleManager.CurrentManager.SmallerScale;
 
-                Vsl.Padding = new Thickness(100.0 * verticalScale, 0.0);
+                MainVerticalStackLayout.Padding = new Thickness(100.0 * verticalScale, 0.0);
 
                 DescriptionLabel1.FontSize = 30.0 * smallestScale;
                 DescriptionLabel1.Margin = new Thickness(0.0, 25.0 * verticalScale, 0.0, 0.0);

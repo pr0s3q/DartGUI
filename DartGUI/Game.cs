@@ -355,7 +355,7 @@ namespace DartGUI
 
         internal int GetPlayerPointsLeft(int playerIndex) => _players[playerIndex].PointsLeft;
 
-        internal void NextLeg()
+        private void NextLeg()
         {
             for (int i = 0; i < _players.Count; i++)
             {

@@ -62,25 +62,25 @@
                 {
                     case RowStatus.Default:
                     {
-                        _playerIdBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR);
+                        _playerIdBorder.Stroke = DesignColors.BORDER_COLOR;
                         _playerIdLabel.TextColor = DesignColors.LABEL_TEXT_COLOR;
-                        _playerNameBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR);
+                        _playerNameBorder.Stroke = DesignColors.BORDER_COLOR;
                         _playerNameLabel.TextColor = DesignColors.LABEL_TEXT_COLOR;
-                        _playerLegsWonBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR);
+                        _playerLegsWonBorder.Stroke = DesignColors.BORDER_COLOR;
                         _playerLegsWonLabel.TextColor = DesignColors.LABEL_TEXT_COLOR;
-                        _playerPointsLeftBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_COLOR);
+                        _playerPointsLeftBorder.Stroke = DesignColors.BORDER_COLOR;
                         _playerPointsLeftLabel.TextColor = DesignColors.LABEL_TEXT_COLOR;
                         break;
                     }
                     case RowStatus.CurrentPlayer:
                     {
-                        _playerIdBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_CUSTOM_COLOR);
+                        _playerIdBorder.Stroke = DesignColors.BORDER_CUSTOM_COLOR;
                         _playerIdLabel.TextColor = DesignColors.LABEL_CUSTOM_TEXT_COLOR;
-                        _playerNameBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_CUSTOM_COLOR);
+                        _playerNameBorder.Stroke = DesignColors.BORDER_CUSTOM_COLOR;
                         _playerNameLabel.TextColor = DesignColors.LABEL_CUSTOM_TEXT_COLOR;
-                        _playerLegsWonBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_CUSTOM_COLOR);
+                        _playerLegsWonBorder.Stroke = DesignColors.BORDER_CUSTOM_COLOR;
                         _playerLegsWonLabel.TextColor = DesignColors.LABEL_CUSTOM_TEXT_COLOR;
-                        _playerPointsLeftBorder.Stroke = new SolidColorBrush(DesignColors.BORDER_CUSTOM_COLOR);
+                        _playerPointsLeftBorder.Stroke = DesignColors.BORDER_CUSTOM_COLOR;
                         _playerPointsLeftLabel.TextColor = DesignColors.LABEL_CUSTOM_TEXT_COLOR;
                         break;
                     }

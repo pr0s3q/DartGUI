@@ -5,7 +5,7 @@ namespace DartGUI
     internal static class Extensions
     {
 
-        internal static void GetString(this Dartboard[] dartboard, out string result)
+        internal static void GetString(this IEnumerable<Dartboard> dartboard, out string result)
         {
             result = string.Empty;
             foreach (var d in dartboard)

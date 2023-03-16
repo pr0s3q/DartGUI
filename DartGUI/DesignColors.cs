@@ -1,6 +1,6 @@
 ﻿namespace DartGUI
 {
-    internal class DesignColors
+    internal static class DesignColors
     {
         public static readonly Color BACKGROUND_COLOR = Color.FromRgb(30, 35, 41);
 
@@ -13,7 +13,7 @@
         public static readonly Color BUTTON_BACKGROUND_COLOR = Color.FromRgb(129, 236, 236);
         public static readonly Color BUTTON_TEXT_COLOR = Color.FromRgb(30, 35, 41);
 
-        public static readonly Color BORDER_COLOR = Color.FromRgb(0, 206, 201);
-        public static readonly Color BORDER_CUSTOM_COLOR = Color.FromRgb(225, 112, 85);
+        public static readonly SolidColorBrush BORDER_COLOR = new(Color.FromRgb(0, 206, 201));
+        public static readonly SolidColorBrush BORDER_CUSTOM_COLOR = new(Color.FromRgb(225, 112, 85));
     }
 }

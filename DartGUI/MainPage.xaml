@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DartGUI.MainPage"
              x:Name="ContentPage">
-
     <ScrollView>
         <VerticalStackLayout
             Spacing="0"
             VerticalOptions="Center"
-            x:Name="Vsl">
+            x:Name="MainVerticalStackLayout">
             <Label
                 HorizontalTextAlignment="Center"
                 Text="Number of"
@@ -22,7 +21,7 @@
             <Entry
                 ClearButtonVisibility="WhileEditing"
                 Completed="Entry_OnCompleted"
-                x:Name="Entry" />
+                x:Name="Entry"/>
             <Button
                 Clicked="ApplyButton_OnClicked"
                 Text="Apply"
@@ -30,8 +29,7 @@
             <Button
                 Clicked="HelpButton_OnClicked"
                 Text="Help"
-                x:Name="HelpButton"
-                />
+                x:Name="HelpButton"/>
             <Label
                 HorizontalOptions="Center"
                 Padding="0"
@@ -46,5 +44,4 @@
                 x:Name="CopyrightLabel2"/>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
