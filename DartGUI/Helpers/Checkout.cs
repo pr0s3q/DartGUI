@@ -1,4 +1,4 @@
-﻿namespace DartGUI
+﻿namespace DartGUI.Helpers
 {
     internal class Checkout
     {

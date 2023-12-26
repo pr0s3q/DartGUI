@@ -1,4 +1,4 @@
-﻿namespace DartGUI.Enums
+﻿namespace DartGUI.Helpers.Enums
 {
     internal enum Dartboard
     {

@@ -1,4 +1,4 @@
-﻿namespace DartGUI
+﻿namespace DartGUI.Managers
 {
     internal class ScaleManager
     {
@@ -47,7 +47,7 @@
 
         internal static ScaleManager? CurrentManager { get; private set; }
 
-        internal bool IsDefault { get; init; }
+        internal bool IsDefault { get; }
 
 
         /// <summary>

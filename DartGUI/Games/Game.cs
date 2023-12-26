@@ -1,31 +1,17 @@
 ﻿using System.Collections.ObjectModel;
-using DartGUI.Enums;
+using DartGUI.Helpers;
+using DartGUI.Helpers.Enums;
+using DartGUI.Managers;
 using DartGUI.Pages;
 
-namespace DartGUI
+namespace DartGUI.Games
 {
     internal class Game
     {
 
-        #region Local Variables
+        #region Statics
 
-        private Label? _lastThreeShotsLabel;
-
-        private Label? _currentDataLabel;
-
-        private readonly List<Player> _players;
-
-        private readonly TableManager _tableManager;
-
-        private readonly Dartboard[] _pointsEnumList = { Dartboard.None, Dartboard.None, Dartboard.None };
-
-        private readonly int[] _pointsList = {0, 0, 0};
-
-        private int _currentPlayer;
-
-        private int _startingPlayer;
-
-        private readonly ReadOnlyDictionary<int, Checkout> _checkoutDict = new Dictionary<int, Checkout>
+        private static readonly ReadOnlyDictionary<int, Checkout> _checkoutDict = new Dictionary<int, Checkout>
         {
             { 2, new Checkout( 1, "|||   D1   |||") },
             { 3, new Checkout( 2, "|||   S1 | D1   ||| ") },
@@ -190,6 +176,26 @@ namespace DartGUI
             { 167, new Checkout( 3, "|||   T20 | T19 | BULL   ||| ") },
             { 170, new Checkout( 3, "|||   T20 | T20 | BULL   ||| ") }
         }.AsReadOnly();
+
+        #endregion
+
+        #region Local Variables
+
+        private Label? _lastThreeShotsLabel;
+
+        private Label? _currentDataLabel;
+
+        private readonly List<Player> _players;
+
+        private readonly TableManager _tableManager;
+
+        private readonly Dartboard[] _pointsEnumList = [Dartboard.None, Dartboard.None, Dartboard.None];
+
+        private readonly int[] _pointsList = [0, 0, 0];
+
+        private int _currentPlayer;
+
+        private int _startingPlayer;
 
         #endregion
 

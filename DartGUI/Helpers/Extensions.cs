@@ -1,4 +1,4 @@
-﻿using DartGUI.Enums;
+﻿using DartGUI.Helpers.Enums;
 
 namespace DartGUI
 {

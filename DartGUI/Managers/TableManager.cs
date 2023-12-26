@@ -1,4 +1,6 @@
-﻿namespace DartGUI
+﻿using DartGUI.Helpers;
+
+namespace DartGUI.Managers
 {
     internal class TableManager
     {

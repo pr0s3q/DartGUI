@@ -1,4 +1,7 @@
-﻿namespace DartGUI.Pages
+﻿using DartGUI.Helpers;
+using DartGUI.Managers;
+
+namespace DartGUI.Pages
 {
     public partial class MainPage
     {

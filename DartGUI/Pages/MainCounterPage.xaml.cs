@@ -1,5 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using DartGUI.Enums;
+using DartGUI.Games;
+using DartGUI.Helpers;
+using DartGUI.Helpers.Enums;
+using DartGUI.Managers;
 
 namespace DartGUI.Pages
 {
@@ -108,7 +111,6 @@ namespace DartGUI.Pages
                     button.Clicked += OnButton_Clicked;
                     hsl.Add(button);
                 }
-
                 VerticalStackLayout.Add(hsl);
             }
 
