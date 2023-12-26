@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
    <PropertyGroup>
-      <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-      <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
-      <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-      <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+      <TargetFrameworks>net8.0-android</TargetFrameworks>
+      <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
       <OutputType>Exe</OutputType>
       <RootNamespace>DartGUI</RootNamespace>
       <UseMaui>true</UseMaui>
@@ -23,22 +21,15 @@
       <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
       <ApplicationVersion>1</ApplicationVersion>
 
-      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
       <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
       <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
    </PropertyGroup>
 
    <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>myapp.keystore</AndroidSigningKeyStore>
     <AndroidSigningKeyAlias>key</AndroidSigningKeyAlias>
-   </PropertyGroup>
-
-   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-     <MtouchLink>SdkOnly</MtouchLink>
    </PropertyGroup>
 
    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
@@ -67,21 +58,37 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Compile Update="MainPage.xaml.cs">
-       <DependentUpon>MainPage.xaml</DependentUpon>
-     </Compile>
+     <MauiXaml Update="Pages\MainPage.xaml">
+       <SubType>Designer</SubType>
+     </MauiXaml>
+     <MauiXaml Update="Pages\PlayerNamesPage.xaml">
+       <SubType>Designer</SubType>
+     </MauiXaml>
+     <MauiXaml Update="Pages\MainCounterPage.xaml">
+       <SubType>Designer</SubType>
+     </MauiXaml>
+     <MauiXaml Update="Pages\HelpPage.xaml">
+       <SubType>Designer</SubType>
+     </MauiXaml>
    </ItemGroup>
 
    <ItemGroup>
-     <MauiXaml Update="HelpPage.xaml">
-       <Generator></Generator>
-     </MauiXaml>
-     <MauiXaml Update="MainCounterPage.xaml">
-       <Generator></Generator>
-     </MauiXaml>
-     <MauiXaml Update="PlayerNamesPage.xaml">
-       <Generator></Generator>
-     </MauiXaml>
+     <Compile Update="Pages\MainPage.xaml.cs">
+       <DependentUpon>MainPage.xaml</DependentUpon>
+       <SubType>Code</SubType>
+     </Compile>
+     <Compile Update="Pages\PlayerNamesPage.xaml.cs">
+       <DependentUpon>PlayerNamesPage.xaml</DependentUpon>
+       <SubType>Code</SubType>
+     </Compile>
+     <Compile Update="Pages\MainCounterPage.xaml.cs">
+       <DependentUpon>MainCounterPage.xaml</DependentUpon>
+       <SubType>Code</SubType>
+     </Compile>
+     <Compile Update="Pages\HelpPage.xaml.cs">
+       <DependentUpon>HelpPage.xaml</DependentUpon>
+       <SubType>Code</SubType>
+     </Compile>
    </ItemGroup>
 
 </Project>

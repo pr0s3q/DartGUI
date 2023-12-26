@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DartGUI.Enums;
 
-namespace DartGUI
+namespace DartGUI.Pages
 {
     public partial class MainCounterPage
     {
@@ -254,7 +254,7 @@ namespace DartGUI
         }
 
         #endregion
-        
+
         #region Properties
 
         private static double HeightScale => ScaleManager.CurrentManager!.HeightScale;

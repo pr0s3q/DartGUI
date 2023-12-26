@@ -1,4 +1,6 @@
-﻿namespace DartGUI;
+﻿using DartGUI.Pages;
+
+namespace DartGUI;
 
 public partial class App
 {

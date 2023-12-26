@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using DartGUI.Enums;
+using DartGUI.Pages;
 
 namespace DartGUI
 {
@@ -276,7 +277,7 @@ namespace DartGUI
 
             if (value == -1)
                 return;
-            
+
             _pointsList[3 - ShotsLeft] = value;
             _pointsEnumList[3 - ShotsLeft] = points;
 
@@ -345,7 +346,7 @@ namespace DartGUI
                 checkoutString = "No possible checkouts";
                 return;
             }
-            
+
             checkoutString = checkout.Ending;
         }
 
