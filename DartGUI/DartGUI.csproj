@@ -18,8 +18,8 @@
       <ApplicationIdGuid>e57773ca-4bf6-45ae-a5d8-eefb7da054c7</ApplicationIdGuid>
 
       <!-- Versions -->
-      <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-      <ApplicationVersion>1</ApplicationVersion>
+      <ApplicationDisplayVersion>1.0.1</ApplicationDisplayVersion>
+      <ApplicationVersion>3</ApplicationVersion>
 
       <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
       <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
@@ -55,7 +55,7 @@
 
    <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
+      <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.70" />
    </ItemGroup>
 
    <ItemGroup>
