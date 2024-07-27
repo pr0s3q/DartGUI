@@ -217,6 +217,9 @@ namespace DartGUI.Games
 
         internal void AcceptPoints()
         {
+            if (ShotsLeft != 0)
+                return;
+
             bool nextLeg = false;
 
             if (_players[_currentPlayer].PointsLeft < 0)
@@ -318,7 +321,7 @@ namespace DartGUI.Games
             CleanPointsList();
             return result;
         }
-
+        
         private bool IsLastDouble()
         {
             var lastShot = Dartboard.None;
