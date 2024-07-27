@@ -399,6 +399,11 @@ namespace DartGUI.Games
                 break;
             }
 
+            // Rollback to 0 - when you press Accept without adding points and then press Undo 'i' will be equal to -1
+            // Leading to crash
+            if (i < 0)
+                i = 0;
+            
             _players[_currentPlayer].AddPointsBack(lastPoint);
             ShotsLeft = 3 - i;
 
