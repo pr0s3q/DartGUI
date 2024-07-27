@@ -11,6 +11,7 @@
         public static readonly Color ENTRY_TEXT_COLOR = Color.FromRgb(0, 206, 201);
 
         public static readonly Color BUTTON_BACKGROUND_COLOR = Color.FromRgb(129, 236, 236);
+        public static readonly Color BUTTON_PRESSED_BACKGROUND_COLOR = Color.FromRgb(69, 136, 136);
         public static readonly Color BUTTON_TEXT_COLOR = Color.FromRgb(30, 35, 41);
 
         public static readonly SolidColorBrush BORDER_COLOR = new(Color.FromRgb(0, 206, 201));

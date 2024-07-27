@@ -109,6 +109,8 @@ namespace DartGUI.Pages
                     button.MinimumHeightRequest *= HeightScale;
                     button.MinimumWidthRequest *= WidthScale;
                     button.Clicked += OnButton_Clicked;
+                    button.Pressed += GlobalEvents.OnButton_Pressed;
+                    button.Released += GlobalEvents.OnButton_Released;
                     hsl.Add(button);
                 }
                 VerticalStackLayout.Add(hsl);
@@ -132,6 +134,8 @@ namespace DartGUI.Pages
                 button.MinimumHeightRequest *= HeightScale;
                 button.MinimumWidthRequest *= WidthScale;
                 button.Clicked += OnUndoButton_Clicked;
+                button.Pressed += GlobalEvents.OnButton_Pressed;
+                button.Released += GlobalEvents.OnButton_Released;
                 hsl.Add(button);
                 button = new Button
                 {
@@ -146,6 +150,8 @@ namespace DartGUI.Pages
                 button.MinimumHeightRequest *= HeightScale;
                 button.MinimumWidthRequest *= WidthScale;
                 button.Clicked += OnAcceptButton_Clicked;
+                button.Pressed += GlobalEvents.OnButton_Pressed;
+                button.Released += GlobalEvents.OnButton_Released;
                 hsl.Add(button);
                 VerticalStackLayout.Add(hsl);
             }

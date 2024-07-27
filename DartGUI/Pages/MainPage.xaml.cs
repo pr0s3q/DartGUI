@@ -14,13 +14,22 @@ namespace DartGUI.Pages
 
             Entry.BackgroundColor = DesignColors.ENTRY_BACKGROUND_COLOR;
             Entry.TextColor = DesignColors.ENTRY_TEXT_COLOR;
+            
             ContentPage.BackgroundColor = DesignColors.BACKGROUND_COLOR;
+            
             DescriptionLabel1.TextColor = DesignColors.LABEL_TEXT_COLOR;
             DescriptionLabel2.TextColor = DesignColors.LABEL_TEXT_COLOR;
+            
             ApplyButton.BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR;
             ApplyButton.TextColor = DesignColors.BUTTON_TEXT_COLOR;
+            ApplyButton.Pressed += GlobalEvents.OnButton_Pressed;
+            ApplyButton.Released += GlobalEvents.OnButton_Released;
+            
             HelpButton.BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR;
             HelpButton.TextColor = DesignColors.BUTTON_TEXT_COLOR;
+            HelpButton.Pressed += GlobalEvents.OnButton_Pressed;
+            HelpButton.Released += GlobalEvents.OnButton_Released;
+            
             CopyrightLabel1.TextColor = DesignColors.LABEL_TEXT_COLOR;
             CopyrightLabel2.TextColor = DesignColors.LABEL_TEXT_COLOR;
 

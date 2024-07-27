@@ -49,6 +49,8 @@ namespace DartGUI.Pages
             button.MinimumHeightRequest *= ScaleManager.CurrentManager.HeightScale;
             button.MinimumWidthRequest *= ScaleManager.CurrentManager.WidthScale;
             button.Clicked += Button_OnClicked;
+            button.Pressed += GlobalEvents.OnButton_Pressed;
+            button.Released += GlobalEvents.OnButton_Released;
             VerticalStackLayout.Add(button);
 
             ScaleLayout();
