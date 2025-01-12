@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using DartGUI.Database;
 using DartGUI.Games;
 using DartGUI.Helpers;
 using DartGUI.Helpers.Enums;
@@ -54,6 +55,16 @@ namespace DartGUI.Pages
             _game.SetTableRowsColor(0);
         }
 
+        internal MainCounterPage(Game game)
+        {
+            _playerNames = game.GetPlayerNames();
+            InitializeComponent();
+            ContentPage.BackgroundColor = DesignColors.BACKGROUND_COLOR;
+            _game = game;
+            InitializeLayout(true);
+            _game.SetTableRowsColor();
+        }
+
         #endregion
 
         #region Events
@@ -71,21 +82,94 @@ namespace DartGUI.Pages
 
         private void OnUndoButton_Clicked(object? sender, EventArgs e) => _game.Undo();
 
+        private void OnSaveGameButton_Clicked(object? sender, EventArgs e) => MemoryDatabase.SaveLastGame(_game);
+
+        private void OnStatisticsButton_Clicked(object? sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Operations
 
-        private void InitializeLayout()
+        private void InitializeLayout(bool loaded = false)
         {
-            var lastThreeShotsLabel = new Label
             {
-                FontSize = 30.0 * SmallerScale,
-                HorizontalTextAlignment = TextAlignment.Center,
-                Text = string.Empty,
-                TextColor = DesignColors.LABEL_TEXT_COLOR
-            };
-            VerticalStackLayout.Add(lastThreeShotsLabel);
-            _game.AddLastThreeShotsLabel(lastThreeShotsLabel);
+                var hsl = new HorizontalStackLayout
+                {
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                var grid = new Grid()
+                {
+                    ColumnDefinitions = new ColumnDefinitionCollection(
+                        new ColumnDefinition(new GridLength(130.0 * WidthScale)),
+                        new ColumnDefinition(new GridLength(840.0 * WidthScale)),
+                        new ColumnDefinition(new GridLength(130.0 * WidthScale))),
+                    RowDefinitions = new RowDefinitionCollection(
+                        new RowDefinition(new GridLength(50.0 * HeightScale))),
+                    VerticalOptions = LayoutOptions.Center
+                };
+                var saveGameButton = new Button
+                {
+                    BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
+                    FontSize = 25.0 * SmallerScale,
+                    Margin = new Thickness(1.0 * SmallerScale, 0.0, 1.0 * SmallerScale, 0.0),
+                    Padding = new Thickness(0.0, 10.0 * HeightScale, 0.0, 10.0 * HeightScale),
+                    WidthRequest = 120.0 * WidthScale,
+                    HeightRequest = 50.0 * HeightScale,
+                    Text = "Save",
+                    TextColor = DesignColors.BUTTON_TEXT_COLOR
+                };
+                saveGameButton.MinimumHeightRequest *= HeightScale;
+                saveGameButton.MinimumWidthRequest *= WidthScale;
+                saveGameButton.Clicked += OnSaveGameButton_Clicked;
+                saveGameButton.Pressed += GlobalEvents.OnButton_Pressed;
+                saveGameButton.Released += GlobalEvents.OnButton_Released;
+                grid.Add(saveGameButton, 0);
+
+                if (loaded)
+                {
+                    var lastThreeShotsLabel = _game.GetLastThreeShotsLabel();
+                    if (lastThreeShotsLabel.Parent is Layout parentLayout)
+                        parentLayout.Children.Remove(lastThreeShotsLabel);
+
+                    grid.Add(lastThreeShotsLabel, 1);
+                }
+                else
+                {
+                    var lastThreeShotsLabel = new Label
+                    {
+                        FontSize = 30.0 * SmallerScale,
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        Text = string.Empty,
+                        TextColor = DesignColors.LABEL_TEXT_COLOR
+                    };
+                    grid.Add(lastThreeShotsLabel, 1);
+
+                    _game.AddLastThreeShotsLabel(lastThreeShotsLabel);
+                }
+
+                var statisticsButton = new Button
+                {
+                    BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR,
+                    FontSize = 25.0 * SmallerScale,
+                    Margin = new Thickness(1.0 * SmallerScale, 0.0, 1.0 * SmallerScale, 0.0),
+                    Padding = new Thickness(0.0, 10.0 * HeightScale, 0.0, 10.0 * HeightScale),
+                    WidthRequest = 120.0 * WidthScale,
+                    HeightRequest = 50.0 * HeightScale,
+                    Text = "Statistics",
+                    TextColor = DesignColors.BUTTON_TEXT_COLOR
+                };
+                statisticsButton.MinimumHeightRequest *= HeightScale;
+                statisticsButton.MinimumWidthRequest *= WidthScale;
+                statisticsButton.Clicked += OnStatisticsButton_Clicked;
+                statisticsButton.Pressed += GlobalEvents.OnButton_Pressed;
+                statisticsButton.Released += GlobalEvents.OnButton_Released;
+                grid.Add(statisticsButton, 2);
+                hsl.Add(grid);
+                VerticalStackLayout.Add(hsl);
+            }
 
             foreach (var dict in ROW_BUTTONS_DATA)
             {
@@ -156,107 +240,154 @@ namespace DartGUI.Pages
                 VerticalStackLayout.Add(hsl);
             }
 
-            var currentDataLabel = new Label
+            if (loaded)
             {
-                FontSize = 30.0 * SmallerScale,
-                HorizontalTextAlignment = TextAlignment.Center,
-                Text = $"Possible checkout: No possible checkouts - Shots left: {_game.ShotsLeft}",
-                TextColor = DesignColors.LABEL_TEXT_COLOR
-            };
-            VerticalStackLayout.Add(currentDataLabel);
-            _game.AddCurrentDataLabel(currentDataLabel);
-            var hsl2 = new HorizontalStackLayout
-            {
-                HorizontalOptions = LayoutOptions.Center
-            };
-            var grid = new Grid
-            {
-                ColumnDefinitions = new ColumnDefinitionCollection(
-                    new ColumnDefinition(new GridLength(50.0 * WidthScale)),
-                    new ColumnDefinition(new GridLength(250.0 * WidthScale)),
-                    new ColumnDefinition(new GridLength(75.0 * WidthScale)),
-                    new ColumnDefinition(new GridLength(125.0 * WidthScale))),
-                RowDefinitions = new RowDefinitionCollection(
-                    new RowDefinition(new GridLength(50.0 * HeightScale)),
-                    new RowDefinition(new GridLength(50.0 * HeightScale)),
-                    new RowDefinition(new GridLength(50.0 * HeightScale)),
-                    new RowDefinition(new GridLength(50.0 * HeightScale)),
-                    new RowDefinition(new GridLength(50.0 * HeightScale))),
-                VerticalOptions = LayoutOptions.Center
-            };
-            for (int i = 0; i < _playerNames.Count; i++)
-            {
-                // Player ID
-                var playerIdBorder = new Border
-                {
-                    Stroke = DesignColors.BORDER_COLOR,
-                    StrokeThickness = 2.0 * SmallerScale,
-                };
-                var playerIdLabel = new Label
-                {
-                    FontSize = 30.0 * SmallerScale,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    Text = (i + 1).ToString(),
-                    TextColor = DesignColors.LABEL_TEXT_COLOR,
-                };
-                playerIdBorder.Content = playerIdLabel;
-                grid.Add(playerIdBorder, 0, i);
+                var currentDataLabel = _game.GetCurrentDataLabel();
+                if (currentDataLabel.Parent is Layout parentLayout)
+                    parentLayout.Children.Remove(currentDataLabel);
 
-                // Player Name
-                var playerNameBorder = new Border
-                {
-                    Stroke = DesignColors.BORDER_COLOR,
-                    StrokeThickness = 2.0 * SmallerScale,
-                };
-                var playerNameLabel = new Label
-                {
-                    FontSize = 30.0 * SmallerScale,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    Text = _game.GetPlayerName(i),
-                    TextColor = DesignColors.LABEL_TEXT_COLOR
-                };
-                playerNameBorder.Content = playerNameLabel;
-                grid.Add(playerNameBorder, 1, i);
-
-                // Legs won
-                var legsWonBorder = new Border
-                {
-                    Stroke = DesignColors.BORDER_COLOR,
-                    StrokeThickness = 2.0 * SmallerScale,
-                };
-                var legsWonLabel = new Label
-                {
-                    FontSize = 30.0 * SmallerScale,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    Text = _game.GetPlayerLegsWon(i).ToString(),
-                    TextColor = DesignColors.LABEL_TEXT_COLOR
-                };
-                legsWonBorder.Content = legsWonLabel;
-                grid.Add(legsWonBorder, 2, i);
-
-                // Points left
-                var pointsLeftBorder = new Border
-                {
-                    Stroke = DesignColors.BORDER_COLOR,
-                    StrokeThickness = 2.0 * SmallerScale,
-                };
-                var pointsLeftLabel = new Label
-                {
-                    FontSize = 30.0 * SmallerScale,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    Text = _game.GetPlayerPointsLeft(i).ToString(),
-                    TextColor = DesignColors.LABEL_TEXT_COLOR
-                };
-                pointsLeftBorder.Content = pointsLeftLabel;
-                grid.Add(pointsLeftBorder, 3, i);
-
-                _game.AddRowData(playerIdBorder, playerIdLabel,
-                    playerNameBorder, playerNameLabel,
-                    legsWonBorder, legsWonLabel,
-                    pointsLeftBorder, pointsLeftLabel);
+                VerticalStackLayout.Add(currentDataLabel);
             }
-            hsl2.Add(grid);
-            VerticalStackLayout.Add(hsl2);
+            else
+            {
+                var currentDataLabel = new Label
+                {
+                    FontSize = 30.0 * SmallerScale,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    Text = $"Possible checkout: No possible checkouts - Shots left: {_game.ShotsLeft}",
+                    TextColor = DesignColors.LABEL_TEXT_COLOR
+                };
+                VerticalStackLayout.Add(currentDataLabel);
+                _game.AddCurrentDataLabel(currentDataLabel);
+            }
+
+            {
+                var hsl = new HorizontalStackLayout
+                {
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                var grid = new Grid
+                {
+                    ColumnDefinitions = new ColumnDefinitionCollection(
+                        new ColumnDefinition(new GridLength(50.0 * WidthScale)),
+                        new ColumnDefinition(new GridLength(250.0 * WidthScale)),
+                        new ColumnDefinition(new GridLength(75.0 * WidthScale)),
+                        new ColumnDefinition(new GridLength(125.0 * WidthScale))),
+                    RowDefinitions = new RowDefinitionCollection(
+                        new RowDefinition(new GridLength(50.0 * HeightScale)),
+                        new RowDefinition(new GridLength(50.0 * HeightScale)),
+                        new RowDefinition(new GridLength(50.0 * HeightScale)),
+                        new RowDefinition(new GridLength(50.0 * HeightScale)),
+                        new RowDefinition(new GridLength(50.0 * HeightScale))),
+                    VerticalOptions = LayoutOptions.Center
+                };
+
+                if (loaded)
+                {
+                    var rowDatas = _game.GetAllRowDatas();
+                    for (int i = 0; i < rowDatas.Count; i++)
+                    {
+                        var playerIdBorder = rowDatas[i].PlayerIdBorder;
+                        var playerNameBorder = rowDatas[i].PlayerNameBorder;
+                        var playerLegsWonBorder = rowDatas[i].PlayerLegsWonBorder;
+                        var playerPointsLeftBorder = rowDatas[i].PlayerPointsLeftBorder;
+
+                        if (playerIdBorder.Parent is Layout parentLayout1)
+                            parentLayout1.Children.Remove(playerIdBorder);
+
+                        if (playerNameBorder.Parent is Layout parentLayout2)
+                            parentLayout2.Children.Remove(playerNameBorder);
+
+                        if (playerLegsWonBorder.Parent is Layout parentLayout3)
+                            parentLayout3.Children.Remove(playerLegsWonBorder);
+
+                        if (playerPointsLeftBorder.Parent is Layout parentLayout4)
+                            parentLayout4.Children.Remove(playerPointsLeftBorder);
+
+                        grid.Add(playerIdBorder, 0, i);
+                        grid.Add(playerNameBorder, 1, i);
+                        grid.Add(playerLegsWonBorder, 2, i);
+                        grid.Add(playerPointsLeftBorder, 3, i);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < _playerNames.Count; i++)
+                    {
+                        // Player ID
+                        var playerIdBorder = new Border
+                        {
+                            Stroke = DesignColors.BORDER_COLOR,
+                            StrokeThickness = 2.0 * SmallerScale,
+                        };
+                        var playerIdLabel = new Label
+                        {
+                            FontSize = 30.0 * SmallerScale,
+                            HorizontalTextAlignment = TextAlignment.Center,
+                            Text = (i + 1).ToString(),
+                            TextColor = DesignColors.LABEL_TEXT_COLOR,
+                        };
+                        playerIdBorder.Content = playerIdLabel;
+                        grid.Add(playerIdBorder, 0, i);
+
+                        // Player Name
+                        var playerNameBorder = new Border
+                        {
+                            Stroke = DesignColors.BORDER_COLOR,
+                            StrokeThickness = 2.0 * SmallerScale,
+                        };
+                        var playerNameLabel = new Label
+                        {
+                            FontSize = 30.0 * SmallerScale,
+                            HorizontalTextAlignment = TextAlignment.Center,
+                            Text = _game.GetPlayerName(i),
+                            TextColor = DesignColors.LABEL_TEXT_COLOR
+                        };
+                        playerNameBorder.Content = playerNameLabel;
+                        grid.Add(playerNameBorder, 1, i);
+
+                        // Legs won
+                        var legsWonBorder = new Border
+                        {
+                            Stroke = DesignColors.BORDER_COLOR,
+                            StrokeThickness = 2.0 * SmallerScale,
+                        };
+                        var legsWonLabel = new Label
+                        {
+                            FontSize = 30.0 * SmallerScale,
+                            HorizontalTextAlignment = TextAlignment.Center,
+                            Text = _game.GetPlayerLegsWon(i).ToString(),
+                            TextColor = DesignColors.LABEL_TEXT_COLOR
+                        };
+                        legsWonBorder.Content = legsWonLabel;
+                        grid.Add(legsWonBorder, 2, i);
+
+                        // Points left
+                        var pointsLeftBorder = new Border
+                        {
+                            Stroke = DesignColors.BORDER_COLOR,
+                            StrokeThickness = 2.0 * SmallerScale,
+                        };
+                        var pointsLeftLabel = new Label
+                        {
+                            FontSize = 30.0 * SmallerScale,
+                            HorizontalTextAlignment = TextAlignment.Center,
+                            Text = _game.GetPlayerPointsLeft(i).ToString(),
+                            TextColor = DesignColors.LABEL_TEXT_COLOR
+                        };
+                        pointsLeftBorder.Content = pointsLeftLabel;
+                        grid.Add(pointsLeftBorder, 3, i);
+
+                        _game.AddRowData(playerIdBorder, playerIdLabel,
+                            playerNameBorder, playerNameLabel,
+                            legsWonBorder, legsWonLabel,
+                            pointsLeftBorder, pointsLeftLabel);
+                    }
+                }
+
+                hsl.Add(grid);
+                VerticalStackLayout.Add(hsl);
+            }
 
             VerticalStackLayout.Spacing *= HeightScale;
         }

@@ -11,7 +11,7 @@ namespace DartGUI.Games
 
         #region Statics
 
-        private static readonly ReadOnlyDictionary<int, Checkout> _checkoutDict = new Dictionary<int, Checkout>
+        private static readonly ReadOnlyDictionary<int, Checkout> CheckoutDict = new Dictionary<int, Checkout>
         {
             { 2, new Checkout( 1, "|||   D1   |||") },
             { 3, new Checkout( 2, "|||   S1 | D1   ||| ") },
@@ -217,9 +217,6 @@ namespace DartGUI.Games
 
         internal void AcceptPoints()
         {
-            if (ShotsLeft != 0)
-                return;
-
             bool nextLeg = false;
 
             if (_players[_currentPlayer].PointsLeft < 0)
@@ -245,13 +242,8 @@ namespace DartGUI.Games
                 }
             }
 
-            if (ShotsLeft > 1)
-            {
-                ShotsLeft--;
-                UpdateCurrentDataLabel();
-                UpdateLastThreeShotsLabel();
+            if (ShotsLeft != 0)
                 return;
-            }
 
             ShotsLeft = 3;
             if (!nextLeg)
@@ -268,9 +260,13 @@ namespace DartGUI.Games
             SetTableRowsColor(_currentPlayer);
         }
 
-        internal void AddCurrentDataLabel(Label currentDataLabel) => this._currentDataLabel = currentDataLabel;
+        internal void AddCurrentDataLabel(Label currentDataLabel) => _currentDataLabel = currentDataLabel;
 
-        internal void AddLastThreeShotsLabel(Label label) => this._lastThreeShotsLabel = label;
+        internal Label GetCurrentDataLabel() => _currentDataLabel!;
+
+        internal void AddLastThreeShotsLabel(Label label) => _lastThreeShotsLabel = label;
+
+        internal Label GetLastThreeShotsLabel() => _lastThreeShotsLabel!;
 
         internal void AddPoints(Dartboard points)
         {
@@ -321,7 +317,7 @@ namespace DartGUI.Games
             CleanPointsList();
             return result;
         }
-        
+
         private bool IsLastDouble()
         {
             var lastShot = Dartboard.None;
@@ -349,7 +345,7 @@ namespace DartGUI.Games
         private void CalculatePossibleCheckout(out string checkoutString)
         {
             if (_players[_currentPlayer].PointsLeft > 170 ||
-                !_checkoutDict.TryGetValue(_players[_currentPlayer].PointsLeft, out Checkout? checkout) ||
+                !CheckoutDict.TryGetValue(_players[_currentPlayer].PointsLeft, out Checkout? checkout) ||
                 checkout.ShootsNeed > ShotsLeft)
             {
                 checkoutString = "No possible checkouts";
@@ -359,9 +355,13 @@ namespace DartGUI.Games
             checkoutString = checkout.Ending;
         }
 
+        internal List<RowData> GetAllRowDatas() => _tableManager.GetAllRowDatas();
+
         internal int GetPlayerLegsWon(int playerIndex) => _players[playerIndex].LegsWon;
 
         internal string GetPlayerName(int playerIndex) => _players[playerIndex].Name;
+
+        internal List<string> GetPlayerNames() => _players.Select(p => p.Name).ToList();
 
         internal int GetPlayerPointsLeft(int playerIndex) => _players[playerIndex].PointsLeft;
 
@@ -381,6 +381,8 @@ namespace DartGUI.Games
             _currentPlayer = _startingPlayer;
             ShotsLeft = 0;
         }
+
+        internal void SetTableRowsColor() => _tableManager.SetColor(_currentPlayer);
 
         internal void SetTableRowsColor(int playerIndex) => _tableManager.SetColor(playerIndex);
 
@@ -406,7 +408,7 @@ namespace DartGUI.Games
             // Leading to crash
             if (i < 0)
                 i = 0;
-            
+
             _players[_currentPlayer].AddPointsBack(lastPoint);
             ShotsLeft = 3 - i;
 

@@ -30,10 +30,14 @@
                 Clicked="HelpButton_OnClicked"
                 Text="Help"
                 x:Name="HelpButton"/>
+            <Button
+                Clicked="LoadGame_OnClicked"
+                Text="Load"
+                x:Name="LoadGame"/>
             <Label
                 HorizontalOptions="Center"
                 Padding="0"
-                Text="CrisProgrammerStudio © 2023"
+                Text="CrisProgrammerStudio © 2023-2025"
                 VerticalOptions="End"
                 x:Name="CopyrightLabel1"/>
             <Label
