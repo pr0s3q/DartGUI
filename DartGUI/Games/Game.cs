@@ -444,6 +444,5 @@ namespace DartGUI.Games
         internal int ShotsLeft { get; private set; } = 3;
 
         #endregion
-
     }
 }
