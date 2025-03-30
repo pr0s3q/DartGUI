@@ -12,30 +12,12 @@ namespace DartGUI.Pages
 
         #region Local Variables
 
-        internal static readonly ReadOnlyCollection<Dictionary<Dartboard, int>> ROW_BUTTONS_DATA = new List<Dictionary<Dartboard, int>>
-        {
-            new()
-            {
-                { Dartboard.S1, 1 }, { Dartboard.S2, 2 }, { Dartboard.S3, 3 }, { Dartboard.S4, 4 }, { Dartboard.S5, 5 },
-                { Dartboard.S6, 6 }, { Dartboard.S7, 7 }, { Dartboard.S8, 8 }, { Dartboard.S9, 9 }, { Dartboard.S10, 10 },
-                { Dartboard.S11, 11 }, { Dartboard.S12, 12 }, { Dartboard.S13, 13 }, { Dartboard.S14, 14 }, { Dartboard.S15, 15 },
-                { Dartboard.S16, 16 }, { Dartboard.S17, 17 }, { Dartboard.S18, 18 }, { Dartboard.S19, 19 }, { Dartboard.S20, 20 }, { Dartboard.S25, 25 }
-            },
-            new()
-            {
-                { Dartboard.D1, 2 }, { Dartboard.D2, 4 }, { Dartboard.D3, 6 }, { Dartboard.D4, 8 }, { Dartboard.D5, 10 },
-                { Dartboard.D6, 12 }, { Dartboard.D7, 14 }, { Dartboard.D8, 16 }, { Dartboard.D9, 18 }, { Dartboard.D10, 20 },
-                { Dartboard.D11, 22 }, { Dartboard.D12, 24 }, { Dartboard.D13, 26 }, { Dartboard.D14, 28 }, { Dartboard.D15, 30 },
-                { Dartboard.D16, 32 }, { Dartboard.D17, 34 }, { Dartboard.D18, 36 }, { Dartboard.D19, 38 }, { Dartboard.D20, 40 }, { Dartboard.D25, 50 }
-            },
-            new()
-            {
-                { Dartboard.T1, 3 }, { Dartboard.T2, 6 }, { Dartboard.T3, 9 }, { Dartboard.T4, 12 }, { Dartboard.T5, 15 },
-                { Dartboard.T6, 18 }, { Dartboard.T7, 21 }, { Dartboard.T8, 24 }, { Dartboard.T9, 27 }, { Dartboard.T10, 30 },
-                { Dartboard.T11, 33 }, { Dartboard.T12, 36 }, { Dartboard.T13, 39 }, { Dartboard.T14, 42 }, { Dartboard.T15, 45 },
-                { Dartboard.T16, 48 }, { Dartboard.T17, 51 }, { Dartboard.T18, 54 }, { Dartboard.T19, 57 }, { Dartboard.T20, 60 }, { Dartboard.X, 0 }
-            }
-        }.AsReadOnly();
+        internal static readonly int[] ROW_BUTTONS_DATA =
+            [
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25,
+                2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 50,
+                3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 0
+            ];
 
         private readonly List<string> _playerNames;
 
@@ -171,13 +153,13 @@ namespace DartGUI.Pages
                 VerticalStackLayout.Add(hsl);
             }
 
-            foreach (var dict in ROW_BUTTONS_DATA)
+            for (int i = 0; i < 3; i++)
             {
                 var hsl = new HorizontalStackLayout
                 {
                     HorizontalOptions = LayoutOptions.Center
                 };
-                foreach (var point in dict)
+                for (int j = 0; j < 21; j++)
                 {
                     var button = new Button
                     {
@@ -187,7 +169,7 @@ namespace DartGUI.Pages
                         Padding = new Thickness(0.0, 10.0 * HeightScale, 0.0, 10.0 * HeightScale),
                         WidthRequest = 50.0 * WidthScale,
                         HeightRequest = 50.0 * HeightScale,
-                        Text = point.Key.ToString(),
+                        Text = ((Dartboard)(j + 21 * i)).ToString(),
                         TextColor = DesignColors.BUTTON_TEXT_COLOR
                     };
                     button.MinimumHeightRequest *= HeightScale;

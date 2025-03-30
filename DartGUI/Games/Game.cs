@@ -219,7 +219,7 @@ namespace DartGUI.Games
         {
             bool nextLeg = false;
 
-            if (_players[_currentPlayer].PointsLeft < 0)
+            if (_players[_currentPlayer].PointsLeft < 0 || _players[_currentPlayer].PointsLeft == 1)
             {
                 _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
                 ShotsLeft = 0;
@@ -273,12 +273,7 @@ namespace DartGUI.Games
             if (ShotsLeft == 0 || _players[_currentPlayer].PointsLeft == 0)
                 return;
 
-            int value = -1;
-            foreach (var dict in MainCounterPage.ROW_BUTTONS_DATA)
-            {
-                if (dict.TryGetValue(points, out value))
-                    break;
-            }
+            int value = MainCounterPage.ROW_BUTTONS_DATA[(int)points];
 
             if (value == -1)
                 return;
@@ -330,7 +325,7 @@ namespace DartGUI.Games
                 break;
             }
 
-            return MainCounterPage.ROW_BUTTONS_DATA[1].TryGetValue(lastShot, out int _);
+            return (int)lastShot > 20 && (int)lastShot < 42;
         }
 
         private void CleanPointsList()
