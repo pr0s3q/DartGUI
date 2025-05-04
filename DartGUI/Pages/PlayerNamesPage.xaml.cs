@@ -5,7 +5,6 @@ namespace DartGUI.Pages
 {
     public partial class PlayerNamesPage
     {
-
         #region Local Variables
 
         private readonly int _noOfPlayers;
@@ -27,7 +26,7 @@ namespace DartGUI.Pages
                     BackgroundColor = DesignColors.ENTRY_BACKGROUND_COLOR,
                     ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
                     FontSize = 25.0 * ScaleManager.CurrentManager!.SmallerScale,
-                    Placeholder = $"Player {i+1}",
+                    Placeholder = $"Player {i + 1}",
                     ReturnType = ReturnType.Next,
                     TextColor = DesignColors.ENTRY_TEXT_COLOR,
                     WidthRequest = 300.0 * ScaleManager.CurrentManager.WidthScale
@@ -130,6 +129,5 @@ namespace DartGUI.Pages
         }
 
         #endregion
-
     }
 }

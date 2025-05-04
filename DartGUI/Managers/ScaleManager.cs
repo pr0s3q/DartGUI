@@ -2,7 +2,6 @@
 {
     internal class ScaleManager
     {
-
         #region Local Variables
 
         private readonly double DEFAULT_WIDTH = 2560.0;

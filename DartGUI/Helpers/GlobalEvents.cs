@@ -11,6 +11,6 @@ internal static class GlobalEvents
     internal static void OnButton_Released(object? sender, EventArgs e)
     {
         if (sender is Button button)
-            button.BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR; 
+            button.BackgroundColor = DesignColors.BUTTON_BACKGROUND_COLOR;
     }
 }

@@ -4,7 +4,6 @@ namespace DartGUI.Managers
 {
     internal class TableManager
     {
-
         #region Local Variables
 
         private readonly List<RowData> _rows;
@@ -46,6 +45,5 @@ namespace DartGUI.Managers
         }
 
         #endregion
-
     }
 }

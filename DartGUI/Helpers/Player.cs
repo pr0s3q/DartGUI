@@ -2,7 +2,6 @@
 {
     internal class Player
     {
-
         #region Constructor
 
         internal Player(string name)
@@ -39,6 +38,5 @@
         internal int PointsLeft { get; private set; } = 501;
 
         #endregion
-
     }
 }

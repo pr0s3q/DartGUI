@@ -89,4 +89,11 @@
      </Compile>
    </ItemGroup>
 
+   <ItemGroup>
+     <MauiPlatformSpecificFolder Remove="Platforms\iOS\" />
+     <MauiPlatformSpecificFolder Remove="Platforms\MacCatalyst\" />
+     <MauiPlatformSpecificFolder Remove="Platforms\Windows\" />
+     <MauiPlatformSpecificFolder Remove="Platforms\Tizen\" />
+   </ItemGroup>
+
 </Project>

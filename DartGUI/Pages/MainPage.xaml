@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DartGUI.Pages.MainPage"
@@ -12,40 +13,40 @@
                 HorizontalTextAlignment="Center"
                 Text="Number of"
                 VerticalTextAlignment="Center"
-                x:Name="DescriptionLabel1"/>
+                x:Name="DescriptionLabel1" />
             <Label
                 HorizontalTextAlignment="Center"
                 Text="players (max 5):"
                 VerticalTextAlignment="Center"
-                x:Name="DescriptionLabel2"/>
+                x:Name="DescriptionLabel2" />
             <Entry
                 ClearButtonVisibility="WhileEditing"
                 Completed="Entry_OnCompleted"
-                x:Name="Entry"/>
+                x:Name="Entry" />
             <Button
                 Clicked="ApplyButton_OnClicked"
                 Text="Apply"
-                x:Name="ApplyButton"/>
+                x:Name="ApplyButton" />
             <Button
                 Clicked="HelpButton_OnClicked"
                 Text="Help"
-                x:Name="HelpButton"/>
+                x:Name="HelpButton" />
             <Button
                 Clicked="LoadGame_OnClicked"
                 Text="Load"
-                x:Name="LoadGame"/>
+                x:Name="LoadGame" />
             <Label
                 HorizontalOptions="Center"
                 Padding="0"
                 Text="CrisProgrammerStudio © 2023-2025"
                 VerticalOptions="End"
-                x:Name="CopyrightLabel1"/>
+                x:Name="CopyrightLabel1" />
             <Label
                 HorizontalOptions="Center"
                 Margin="0"
                 Text="All Rights Reserved"
                 VerticalOptions="End"
-                x:Name="CopyrightLabel2"/>
+                x:Name="CopyrightLabel2" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

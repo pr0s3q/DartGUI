@@ -2,7 +2,6 @@
 {
     internal class Checkout
     {
-
         #region Constructor
 
         internal Checkout(int shootsNeed, string ending)
@@ -20,6 +19,5 @@
         internal string Ending { get; }
 
         #endregion
-
     }
 }
