@@ -58,7 +58,7 @@ namespace DartGUI.Pages
 
         private void LoadGame_OnClicked(object? sender, EventArgs e)
         {
-            if (MemoryDatabase.GetLastGameIfExist(out Game? game))
+            if (MemoryDatabase.GetLastGameIfExist(out GameBase? game))
                 Navigation.PushAsync(new MainCounterPage(game!));
         }
 

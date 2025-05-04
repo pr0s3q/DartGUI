@@ -4,9 +4,9 @@ namespace DartGUI.Database;
 
 internal static class MemoryDatabase
 {
-    private static Game? _game = null;
+    private static GameBase? _game = null;
 
-    internal static bool GetLastGameIfExist(out Game? game)
+    internal static bool GetLastGameIfExist(out GameBase? game)
     {
         game = null;
         if (_game is null)
@@ -16,5 +16,5 @@ internal static class MemoryDatabase
         return true;
     }
 
-    internal static void SaveLastGame(Game game) => _game = game;
+    internal static void SaveLastGame(GameBase game) => _game = game;
 }

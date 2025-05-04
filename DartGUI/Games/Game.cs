@@ -6,7 +6,7 @@ using DartGUI.Pages;
 
 namespace DartGUI.Games
 {
-    internal class Game
+    internal class Game : GameBase
     {
 
         #region Statics
@@ -185,30 +185,22 @@ namespace DartGUI.Games
 
         private Label? _currentDataLabel;
 
-        private readonly List<Player> _players;
-
         private readonly TableManager _tableManager;
-
-        private readonly Dartboard[] _pointsEnumList = [Dartboard.None, Dartboard.None, Dartboard.None];
-
-        private readonly int[] _pointsList = [0, 0, 0];
-
-        private int _currentPlayer;
-
-        private int _startingPlayer;
 
         #endregion
 
         #region Constructor
 
         internal Game(List<string> playerNames)
+            : base(playerNames)
         {
-            _players = new List<Player>(playerNames.Count);
-            foreach (var name in playerNames)
-            {
-                _players.Add(new Player(name));
-            }
             _tableManager = new TableManager(playerNames.Count);
+        }
+
+        internal Game(GameBase gameBase)
+            : base(gameBase)
+        {
+            _tableManager = new TableManager(_players.Count);
         }
 
         #endregion
@@ -262,18 +254,14 @@ namespace DartGUI.Games
 
         internal void AddCurrentDataLabel(Label currentDataLabel) => _currentDataLabel = currentDataLabel;
 
-        internal Label GetCurrentDataLabel() => _currentDataLabel!;
-
         internal void AddLastThreeShotsLabel(Label label) => _lastThreeShotsLabel = label;
-
-        internal Label GetLastThreeShotsLabel() => _lastThreeShotsLabel!;
 
         internal void AddPoints(Dartboard points)
         {
             if (ShotsLeft == 0 || _players[_currentPlayer].PointsLeft == 0)
                 return;
 
-            int value = MainCounterPage.ROW_BUTTONS_DATA[(int)points];
+            int value = MainCounterPage.RowButtonsData[(int)points];
 
             if (value == -1)
                 return;
@@ -350,13 +338,7 @@ namespace DartGUI.Games
             checkoutString = checkout.Ending;
         }
 
-        internal List<RowData> GetAllRowDatas() => _tableManager.GetAllRowDatas();
-
-        internal int GetPlayerLegsWon(int playerIndex) => _players[playerIndex].LegsWon;
-
         internal string GetPlayerName(int playerIndex) => _players[playerIndex].Name;
-
-        internal List<string> GetPlayerNames() => _players.Select(p => p.Name).ToList();
 
         internal int GetPlayerPointsLeft(int playerIndex) => _players[playerIndex].PointsLeft;
 
@@ -375,6 +357,13 @@ namespace DartGUI.Games
 
             _currentPlayer = _startingPlayer;
             ShotsLeft = 0;
+        }
+
+        internal void PopulateData()
+        {
+            UpdateTable();
+            UpdateCurrentDataLabel();
+            UpdateLastThreeShotsLabel();
         }
 
         internal void SetTableRowsColor() => _tableManager.SetColor(_currentPlayer);
@@ -431,12 +420,6 @@ namespace DartGUI.Games
                 return;
             _tableManager.Update(_currentPlayer, _players[_currentPlayer]);
         }
-
-        #endregion
-
-        #region Properties
-
-        internal int ShotsLeft { get; private set; } = 3;
 
         #endregion
     }
