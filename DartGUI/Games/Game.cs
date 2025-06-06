@@ -210,24 +210,32 @@ namespace DartGUI.Games
         {
             bool nextLeg = false;
 
+            // Player have less than 0 point left, or equal to 1
+            // Rollback of points
             if (_players[_currentPlayer].PointsLeft < 0 || _players[_currentPlayer].PointsLeft == 1)
             {
                 _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
+                CleanPointsList();
                 ShotsLeft = 0;
                 UpdateTable();
             }
 
+            // Player have 0 points left
             if (_players[_currentPlayer].PointsLeft == 0)
             {
+                // Last dart was double - player won the leg
                 if (IsLastDouble())
                 {
                     _players[_currentPlayer].AddWonLeg();
+                    AddToStatistics();
                     NextLeg();
                     nextLeg = true;
                 }
+                // Last one was not  double - rollback
                 else
                 {
                     _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
+                    CleanPointsList();
                     ShotsLeft = 0;
                     UpdateTable();
                 }
@@ -236,14 +244,16 @@ namespace DartGUI.Games
             if (ShotsLeft != 0)
                 return;
 
-            ShotsLeft = 3;
             if (!nextLeg)
             {
+                AddToStatistics();
                 if (_players.Count - 1 == _currentPlayer)
                     _currentPlayer = 0;
                 else
                     _currentPlayer++;
             }
+
+            ShotsLeft = 3;
 
             UpdateCurrentDataLabel();
             CleanPointsList();
@@ -292,71 +302,9 @@ namespace DartGUI.Games
                 playerPointsLeftBorder, playerPointsLeftLabel);
         }
 
-        private int CalculatePointsFromList()
-        {
-            int result = _pointsList.Sum();
-
-            CleanPointsList();
-            return result;
-        }
-
-        private bool IsLastDouble()
-        {
-            var lastShot = Dartboard.None;
-            for (int i = _pointsEnumList.Length - 1; i >= 0; i--)
-            {
-                if (_pointsEnumList[i] == Dartboard.None)
-                    continue;
-
-                lastShot = _pointsEnumList[i];
-                break;
-            }
-
-            return (int)lastShot > 20 && (int)lastShot < 42;
-        }
-
-        private void CleanPointsList()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _pointsList[i] = 0;
-                _pointsEnumList[i] = Dartboard.None;
-            }
-        }
-
-        private void CalculatePossibleCheckout(out string checkoutString)
-        {
-            if (_players[_currentPlayer].PointsLeft > 170 ||
-                !CheckoutDict.TryGetValue(_players[_currentPlayer].PointsLeft, out Checkout? checkout) ||
-                checkout.ShootsNeed > ShotsLeft)
-            {
-                checkoutString = "No possible checkouts";
-                return;
-            }
-
-            checkoutString = checkout.Ending;
-        }
-
         internal string GetPlayerName(int playerIndex) => _players[playerIndex].Name;
 
         internal int GetPlayerPointsLeft(int playerIndex) => _players[playerIndex].PointsLeft;
-
-        private void NextLeg()
-        {
-            for (int i = 0; i < _players.Count; i++)
-            {
-                _players[i].ResetPoints();
-                _tableManager.Update(i, _players[i]);
-            }
-
-            if (_startingPlayer == _players.Count - 1)
-                _startingPlayer = 0;
-            else
-                _startingPlayer++;
-
-            _currentPlayer = _startingPlayer;
-            ShotsLeft = 0;
-        }
 
         internal void PopulateData()
         {
@@ -400,6 +348,68 @@ namespace DartGUI.Games
             UpdateLastThreeShotsLabel();
         }
 
+        internal List<Player> GetPlayers() => _players;
+
+        #endregion
+
+        #region Private Operations
+
+        private int CalculatePointsFromList() => _pointsList.Sum();
+
+        private bool IsLastDouble()
+        {
+            var lastShot = Dartboard.None;
+            for (int i = _pointsEnumList.Length - 1; i >= 0; i--)
+            {
+                if (_pointsEnumList[i] == Dartboard.None)
+                    continue;
+
+                lastShot = _pointsEnumList[i];
+                break;
+            }
+
+            return (int)lastShot > 20 && (int)lastShot < 42;
+        }
+
+        private void CleanPointsList()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _pointsList[i] = 0;
+                _pointsEnumList[i] = Dartboard.None;
+            }
+        }
+
+        private void CalculatePossibleCheckout(out string checkoutString)
+        {
+            if (_players[_currentPlayer].PointsLeft > 170 ||
+                !CheckoutDict.TryGetValue(_players[_currentPlayer].PointsLeft, out Checkout? checkout) ||
+                checkout.ShootsNeed > ShotsLeft)
+            {
+                checkoutString = "No possible checkouts";
+                return;
+            }
+
+            checkoutString = checkout.Ending;
+        }
+
+        private void NextLeg()
+        {
+            for (int i = 0; i < _players.Count; i++)
+            {
+                _players[i].ResetPoints();
+                _tableManager.Update(i, _players[i]);
+            }
+
+            if (_startingPlayer == _players.Count - 1)
+                _startingPlayer = 0;
+            else
+                _startingPlayer++;
+
+            _currentPlayer = _startingPlayer;
+            ShotsLeft = 0;
+        }
+
         private void UpdateCurrentDataLabel()
         {
             CalculatePossibleCheckout(out string checkout);
@@ -418,6 +428,11 @@ namespace DartGUI.Games
             if (_currentPlayer == -1)
                 return;
             _tableManager.Update(_currentPlayer, _players[_currentPlayer]);
+        }
+
+        private void AddToStatistics()
+        {
+            _players[_currentPlayer].Statistics.AddPoints(CalculatePointsFromList(), 3 - ShotsLeft);
         }
 
         #endregion

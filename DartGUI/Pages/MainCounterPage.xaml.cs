@@ -65,9 +65,7 @@ public partial class MainCounterPage
 
     private void OnSaveGameButton_Clicked(object? sender, EventArgs e) => MemoryDatabase.SaveLastGame(_game);
 
-    private void OnStatisticsButton_Clicked(object? sender, EventArgs e)
-    {
-    }
+    private void OnStatisticsButton_Clicked(object? sender, EventArgs e) => Navigation.PushAsync(new StatisticsPage(_game));
 
     #endregion
 

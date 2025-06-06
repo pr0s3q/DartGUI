@@ -37,6 +37,8 @@
 
         internal int PointsLeft { get; private set; } = 501;
 
+        internal Statistics Statistics { get; private set; } = new();
+
         #endregion
     }
 }
