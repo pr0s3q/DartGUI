@@ -20,7 +20,12 @@ internal class Statistics
         _totalDartsThrown += dartThrown;
         AveragePoints = (double)_totalPoints / _totalDartsThrown * 3;
         foreach (var dartboardShot in dartboardShots)
+        {
+            if (dartboardShot == Dartboard.None)
+                continue;
+
             _dartboardTallyCounter[(int)dartboardShot]++;
+        }
 
         if (checkout && points > HighestCheckout)
             HighestCheckout = points;

@@ -209,6 +209,7 @@ namespace DartGUI.Games
         internal void AcceptPoints()
         {
             bool nextLeg = false;
+            bool statisticsUpdated = false;
 
             // Player have less than 0 point left, or equal to 1
             // Rollback of points
@@ -230,23 +231,28 @@ namespace DartGUI.Games
                     AddToStatistics(true);
                     NextLeg();
                     nextLeg = true;
+                    statisticsUpdated = true;
                 }
-                // Last one was not  double - rollback
+                // Last one was not double - rollback
                 else
                 {
                     _players[_currentPlayer].AddPointsBack(CalculatePointsFromList());
                     CleanPointsList();
+                    AddToStatistics();
                     ShotsLeft = 0;
                     UpdateTable();
+                    statisticsUpdated = true;
                 }
             }
 
             if (ShotsLeft != 0)
                 return;
 
+            if (!statisticsUpdated)
+                AddToStatistics();
+
             if (!nextLeg)
             {
-                AddToStatistics();
                 if (_players.Count - 1 == _currentPlayer)
                     _currentPlayer = 0;
                 else
