@@ -18,7 +18,7 @@ Track highest "finishing score" in a round.
 
 Example: Player A finished 170 (T20 + T20 + Bull)
 
-## 4. Most Common Double to End a Leg
+## 4. Most Common Double to End a Leg ✅
 Count which double was used most often to win a leg.
 
 Filter only the last dart of each leg.

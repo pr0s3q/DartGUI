@@ -68,6 +68,18 @@ public partial class StatisticsPage
             };
             verticalStackLayout.Add(mostCommonFieldLabel);
 
+            // TODO: Fix performance for creating string
+            var mostCommonDoubleEndText = "|";
+            player.Statistics.MostCommonDoubleEnd.ForEach(point => mostCommonDoubleEndText = $"{mostCommonDoubleEndText} {point.ToString()} |");
+            var mostCommonDoubleEndLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"Most common double end: {mostCommonDoubleEndText}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(mostCommonDoubleEndLabel);
+
             var highestCheckoutLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
