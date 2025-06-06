@@ -227,7 +227,7 @@ namespace DartGUI.Games
                 if (IsLastDouble())
                 {
                     _players[_currentPlayer].AddWonLeg();
-                    AddToStatistics();
+                    AddToStatistics(true);
                     NextLeg();
                     nextLeg = true;
                 }
@@ -430,9 +430,9 @@ namespace DartGUI.Games
             _tableManager.Update(_currentPlayer, _players[_currentPlayer]);
         }
 
-        private void AddToStatistics()
+        private void AddToStatistics(bool checkout = false)
         {
-            _players[_currentPlayer].Statistics.AddPoints(CalculatePointsFromList(), 3 - ShotsLeft);
+            _players[_currentPlayer].Statistics.AddPoints(CalculatePointsFromList(), 3 - ShotsLeft, _pointsEnumList, checkout);
         }
 
         #endregion

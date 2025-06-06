@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DartGUI.Games;
 using DartGUI.Helpers;
 using DartGUI.Managers;
 
 namespace DartGUI.Pages;
 
-public partial class StatisticsPage : ContentPage
+public partial class StatisticsPage
 {
     #region Local Variables
 
@@ -35,6 +30,14 @@ public partial class StatisticsPage : ContentPage
     {
         foreach (var player in _game.GetPlayers())
         {
+            var playerStaticticsBorder = new Border
+            {
+                Margin = new Thickness(0.0, 0.0, 0.0, 45.0),
+                Stroke = DesignColors.BORDER_COLOR,
+                StrokeThickness = 2.0 * SmallerScale
+            };
+            var verticalStackLayout = new VerticalStackLayout();
+
             var playerNameLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
@@ -42,26 +45,46 @@ public partial class StatisticsPage : ContentPage
                 Text = $"Player: {player.Name}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
             };
+            verticalStackLayout.Add(playerNameLabel);
+
             var averagePointsLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
                 HorizontalTextAlignment = TextAlignment.Center,
-                Margin = new Thickness(0.0, 0.0, 0.0, 35.0),
                 Text = $"Average: {player.Statistics.AveragePoints:F2}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
             };
-            MainVerticalStackLayout.Add(playerNameLabel);
-            MainVerticalStackLayout.Add(averagePointsLabel);
+            verticalStackLayout.Add(averagePointsLabel);
+
+            // TODO: Fix performance for creating string
+            var mostCommonFieldText = "|";
+            player.Statistics.MostCommonField.ForEach(point => mostCommonFieldText = $"{mostCommonFieldText} {point.ToString()} |");
+            var mostCommonFieldLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"Most common field: {mostCommonFieldText}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(mostCommonFieldLabel);
+
+            var highestCheckoutLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"Highest checkout: {player.Statistics.HighestCheckout}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(highestCheckoutLabel);
+
+            playerStaticticsBorder.Content = verticalStackLayout;
+            MainVerticalStackLayout.Add(playerStaticticsBorder);
         }
     }
 
     #endregion
 
     #region Properties
-
-    private static double HeightScale => ScaleManager.CurrentManager!.HeightScale;
-
-    private static double WidthScale => ScaleManager.CurrentManager!.WidthScale;
 
     private static double SmallerScale => ScaleManager.CurrentManager!.SmallerScale;
 
