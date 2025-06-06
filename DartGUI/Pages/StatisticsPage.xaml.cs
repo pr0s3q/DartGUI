@@ -77,6 +77,33 @@ public partial class StatisticsPage
             };
             verticalStackLayout.Add(highestCheckoutLabel);
 
+            var hundredEightyTallyCounterLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"180: {player.Statistics.HundredEightyTallyCounter}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(hundredEightyTallyCounterLabel);
+
+            var hundredfortyPlusTallyCounterLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"140+: {player.Statistics.HundredFortyPlusTallyCounter}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(hundredfortyPlusTallyCounterLabel);
+
+            var hundredPlusTallyCounterLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"100+: {player.Statistics.HundredPlusTallyCounter}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(hundredPlusTallyCounterLabel);
+
             playerStaticticsBorder.Content = verticalStackLayout;
             MainVerticalStackLayout.Add(playerStaticticsBorder);
         }

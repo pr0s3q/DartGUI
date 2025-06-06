@@ -40,5 +40,13 @@ Track double attempts and successes across the game.
 
 Breakdown: D20: 4/10, D16: 2/3
 
-## 8. Number of 180s, 140s, 100+ Scores
+## 8. Number of 180s, 140+, 100+ Scores ✅
 Tally power scores (180s especially important).
+
+## 9. "Darts at Leg" or "Leg Darts"
+This refers to the total number of darts thrown by the player from the start of the leg until it is completed.
+
+## 10. Detailed leg statistics
+Statistics of each leg:
+- Player average score
+- Leg Darts (look no 9)

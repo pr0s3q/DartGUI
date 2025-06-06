@@ -9,6 +9,9 @@ internal class Statistics
     private int _totalPoints;
     private int _totalDartsThrown;
     private readonly int[] _dartboardTallyCounter = new int[63];
+    private int _100plus;
+    private int _140plus;
+    private int _180;
 
     #endregion
 
@@ -29,13 +32,24 @@ internal class Statistics
 
         if (checkout && points > HighestCheckout)
             HighestCheckout = points;
+
+        switch (points)
+        {
+            case 180:
+                _180++;
+                break;
+            case >= 140:
+                _140plus++;
+                break;
+            case >= 100:
+                _100plus++;
+                break;
+        }
     }
 
     #endregion
 
     #region Properties
-
-    internal double AveragePoints { get; private set; }
 
     internal List<Dartboard> MostCommonField
     {
@@ -53,7 +67,11 @@ internal class Statistics
         }
     }
 
+    internal double AveragePoints { get; private set; }
     internal int HighestCheckout { get; private set; }
+    internal int HundredEightyTallyCounter => _180;
+    internal int HundredFortyPlusTallyCounter => _140plus;
+    internal int HundredPlusTallyCounter => _100plus;
 
     #endregion
 }
