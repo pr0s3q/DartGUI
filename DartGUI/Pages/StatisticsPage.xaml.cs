@@ -1,5 +1,6 @@
 using DartGUI.Games;
 using DartGUI.Helpers;
+using DartGUI.Helpers.Enums;
 using DartGUI.Managers;
 
 namespace DartGUI.Pages;
@@ -56,26 +57,20 @@ public partial class StatisticsPage
             };
             verticalStackLayout.Add(averagePointsLabel);
 
-            // TODO: Fix performance for creating string
-            var mostCommonFieldText = "|";
-            player.Statistics.MostCommonField.ForEach(point => mostCommonFieldText = $"{mostCommonFieldText} {point.ToString()} |");
             var mostCommonFieldLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
                 HorizontalTextAlignment = TextAlignment.Center,
-                Text = $"Most common field: {mostCommonFieldText}",
+                Text = $"Most common field: {CreateString(player.Statistics.MostCommonField)}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
             };
             verticalStackLayout.Add(mostCommonFieldLabel);
 
-            // TODO: Fix performance for creating string
-            var mostCommonDoubleEndText = "|";
-            player.Statistics.MostCommonDoubleEnd.ForEach(point => mostCommonDoubleEndText = $"{mostCommonDoubleEndText} {point.ToString()} |");
             var mostCommonDoubleEndLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
                 HorizontalTextAlignment = TextAlignment.Center,
-                Text = $"Most common double end: {mostCommonDoubleEndText}",
+                Text = $"Most common double end: {CreateString(player.Statistics.MostCommonDoubleEnd)}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
             };
             verticalStackLayout.Add(mostCommonDoubleEndLabel);
@@ -98,14 +93,14 @@ public partial class StatisticsPage
             };
             verticalStackLayout.Add(hundredEightyTallyCounterLabel);
 
-            var hundredfortyPlusTallyCounterLabel = new Label
+            var hundredFortyPlusTallyCounterLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
                 HorizontalTextAlignment = TextAlignment.Center,
                 Text = $"140+: {player.Statistics.HundredFortyPlusTallyCounter}",
                 TextColor = DesignColors.LABEL_TEXT_COLOR
             };
-            verticalStackLayout.Add(hundredfortyPlusTallyCounterLabel);
+            verticalStackLayout.Add(hundredFortyPlusTallyCounterLabel);
 
             var hundredPlusTallyCounterLabel = new Label
             {
@@ -119,6 +114,62 @@ public partial class StatisticsPage
             playerStaticticsBorder.Content = verticalStackLayout;
             MainVerticalStackLayout.Add(playerStaticticsBorder);
         }
+    }
+
+    #endregion
+
+    #region Helpers
+
+    private static string CreateString(List<Dartboard> dartboardList)
+    {
+        int size = 0;
+        foreach (var dartboard in dartboardList)
+        {
+            if (((int)dartboard >= 0 && (int)dartboard <= 8) ||
+                ((int)dartboard >= 21 && (int)dartboard <= 29) ||
+                ((int)dartboard >= 42 && (int)dartboard <= 50))
+                size += 2;
+            else
+                size += 3;
+
+            size += 3;
+        }
+
+        Span<char> result = stackalloc char[size];
+
+        Span<char> emptyCharacter = stackalloc char[1];
+        emptyCharacter[0] = ' ';
+
+        Span<char> barCharacter = stackalloc char[1];
+        barCharacter[0] = '|';
+
+        barCharacter.CopyTo(result);
+
+        int spanIndex = 1;
+
+        foreach (var dartboard in dartboardList)
+        {
+            if (dartboard is Dartboard.None or Dartboard.X)
+                continue;
+
+            emptyCharacter.CopyTo(result.Slice(spanIndex));
+            spanIndex++;
+            dartboard.ToString().AsSpan().CopyTo(result.Slice(spanIndex));
+
+            if (((int)dartboard >= 0 && (int)dartboard <= 8) ||
+                ((int)dartboard >= 21 && (int)dartboard <= 29) ||
+                ((int)dartboard >= 42 && (int)dartboard <= 50))
+                spanIndex += 2;
+            else
+                spanIndex += 3;
+
+            emptyCharacter.CopyTo(result.Slice(spanIndex));
+            spanIndex++;
+            barCharacter.CopyTo(result.Slice(spanIndex));
+            spanIndex++;
+        }
+
+        return new string(result);
     }
 
     #endregion
