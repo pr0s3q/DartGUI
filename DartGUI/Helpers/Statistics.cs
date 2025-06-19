@@ -112,7 +112,7 @@ internal class Statistics
 
     internal double AveragePoints { get; private set; }
     internal int HighestCheckout { get; private set; }
-    internal List<Dartboard> HighestCheckoutDartsThrown { get; private set; } = new(3);
+    internal List<Dartboard> HighestCheckoutDartsThrown { get; private set; } = [Dartboard.None, Dartboard.None, Dartboard.None];
     internal int HundredEightyTallyCounter => _180;
     internal int HundredFortyPlusTallyCounter => _140Plus;
     internal int HundredPlusTallyCounter => _100Plus;
