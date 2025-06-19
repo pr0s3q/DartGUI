@@ -32,7 +32,12 @@ internal class Statistics
         }
 
         if (checkout && points > HighestCheckout)
+        {
             HighestCheckout = points;
+            HighestCheckoutDartsThrown[0] = dartboardShots[0];
+            HighestCheckoutDartsThrown[1] = dartboardShots[1];
+            HighestCheckoutDartsThrown[2] = dartboardShots[2];
+        }
 
         if (checkout)
         {
@@ -107,6 +112,7 @@ internal class Statistics
 
     internal double AveragePoints { get; private set; }
     internal int HighestCheckout { get; private set; }
+    internal List<Dartboard> HighestCheckoutDartsThrown { get; private set; } = new(3);
     internal int HundredEightyTallyCounter => _180;
     internal int HundredFortyPlusTallyCounter => _140Plus;
     internal int HundredPlusTallyCounter => _100Plus;

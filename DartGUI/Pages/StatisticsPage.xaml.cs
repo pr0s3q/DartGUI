@@ -31,7 +31,7 @@ public partial class StatisticsPage
     {
         foreach (var player in _game.GetPlayers())
         {
-            var playerStaticticsBorder = new Border
+            var playerStatisticsBorder = new Border
             {
                 Margin = new Thickness(0.0, 0.0, 0.0, 45.0),
                 Stroke = DesignColors.BORDER_COLOR,
@@ -84,6 +84,15 @@ public partial class StatisticsPage
             };
             verticalStackLayout.Add(highestCheckoutLabel);
 
+            var highestCheckoutDartsThrownLabel = new Label
+            {
+                FontSize = 30.0 * SmallerScale,
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = $"Highest checkout darts: {CreateString(player.Statistics.HighestCheckoutDartsThrown)}",
+                TextColor = DesignColors.LABEL_TEXT_COLOR
+            };
+            verticalStackLayout.Add(highestCheckoutDartsThrownLabel);
+
             var hundredEightyTallyCounterLabel = new Label
             {
                 FontSize = 30.0 * SmallerScale,
@@ -111,8 +120,8 @@ public partial class StatisticsPage
             };
             verticalStackLayout.Add(hundredPlusTallyCounterLabel);
 
-            playerStaticticsBorder.Content = verticalStackLayout;
-            MainVerticalStackLayout.Add(playerStaticticsBorder);
+            playerStatisticsBorder.Content = verticalStackLayout;
+            MainVerticalStackLayout.Add(playerStatisticsBorder);
         }
     }
 
