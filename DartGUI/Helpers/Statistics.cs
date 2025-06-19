@@ -45,7 +45,7 @@ internal class Statistics
             if (lastShot == 41)
                 _doubleEndTallyCounter[20]++;  // Special case for bullseye (D25)
             else
-                _doubleEndTallyCounter[lastShot / 2 - 1]++;  // Increment count for the corresponding double (D1–D20)
+                _doubleEndTallyCounter[lastShot - 21]++;  // Increment count for the corresponding double (D1–D20)
         }
 
         switch (points)
@@ -99,7 +99,7 @@ internal class Statistics
                     if (x.index == 20)
                         return Dartboard.D25;
 
-                    return (Dartboard)((x.index + 1) * 2);
+                    return (Dartboard)(x.index + 21);
                 })
                 .ToList();
         }

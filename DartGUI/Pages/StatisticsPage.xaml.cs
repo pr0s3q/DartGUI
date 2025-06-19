@@ -122,7 +122,7 @@ public partial class StatisticsPage
 
     private static string CreateString(List<Dartboard> dartboardList)
     {
-        int size = 0;
+        int size = 1;
         foreach (var dartboard in dartboardList)
         {
             if (((int)dartboard >= 0 && (int)dartboard <= 8) ||
