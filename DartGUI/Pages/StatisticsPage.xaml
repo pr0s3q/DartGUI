@@ -6,8 +6,9 @@
              x:Name="ContentPage">
     <ScrollView>
         <VerticalStackLayout
-            Spacing="10"
+            Spacing="80"
             VerticalOptions="Center"
+            Padding="0.0, 20.0"
             x:Name="MainVerticalStackLayout">
 
         </VerticalStackLayout>

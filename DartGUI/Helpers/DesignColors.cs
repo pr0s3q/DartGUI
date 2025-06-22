@@ -3,8 +3,10 @@
     internal static class DesignColors
     {
         public static readonly Color BACKGROUND_COLOR = Color.FromRgb(30, 35, 41);
+        public static readonly Color LIGHT_BACKGROUND_COLOR = Color.FromRgb(45, 52, 54);
 
         public static readonly Color LABEL_TEXT_COLOR = Color.FromRgb(129, 236, 236);
+        public static readonly Color LABEL_LIGHT_TEXT_COLOR = Color.FromRgb(84, 154, 154);
         public static readonly Color LABEL_CUSTOM_TEXT_COLOR = Color.FromRgb(250, 177, 160);
 
         public static readonly Color ENTRY_BACKGROUND_COLOR = Color.FromRgb(45, 52, 54);
