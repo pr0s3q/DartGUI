@@ -1,3 +1,6 @@
+// For _dartboardList variable, that is initialized during Setup()
+#pragma warning disable CS8618
+
 using BenchmarkDotNet.Attributes;
 
 namespace Benchmark;

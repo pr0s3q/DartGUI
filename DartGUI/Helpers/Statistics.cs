@@ -8,9 +8,6 @@ internal class Statistics
 
     private int _totalPoints;
     private int _totalDartsThrown;
-    private int _100Plus;
-    private int _140Plus;
-    private int _180;
     private readonly int[] _dartboardTallyCounter = new int[63];
     private readonly int[] _doubleEndTallyCounter = new int[21];
 
@@ -25,7 +22,7 @@ internal class Statistics
         AveragePoints = (double)_totalPoints / _totalDartsThrown * 3;
         foreach (var dartboardShot in dartboardShots)
         {
-            if (dartboardShot == Dartboard.None)
+            if (dartboardShot is Dartboard.None or Dartboard.X)
                 continue;
 
             _dartboardTallyCounter[(int)dartboardShot]++;
@@ -56,13 +53,13 @@ internal class Statistics
         switch (points)
         {
             case 180:
-                _180++;
+                HundredEightyTallyCounter++;
                 break;
             case >= 140:
-                _140Plus++;
+                HundredFortyPlusTallyCounter++;
                 break;
             case >= 100:
-                _100Plus++;
+                HundredPlusTallyCounter++;
                 break;
         }
     }
@@ -83,7 +80,7 @@ internal class Statistics
                 .Select((value, index) => new { value, index })
                 .Where(x => x.value == biggestValue)
                 .Select(x => (Dartboard)x.index)
-                .Where(x => x != Dartboard.None)
+                .Where(x => x != Dartboard.None && x != Dartboard.X)
                 .ToList();
         }
     }
@@ -112,10 +109,12 @@ internal class Statistics
 
     internal double AveragePoints { get; private set; }
     internal int HighestCheckout { get; private set; }
-    internal List<Dartboard> HighestCheckoutDartsThrown { get; private set; } = [Dartboard.None, Dartboard.None, Dartboard.None];
-    internal int HundredEightyTallyCounter => _180;
-    internal int HundredFortyPlusTallyCounter => _140Plus;
-    internal int HundredPlusTallyCounter => _100Plus;
+    internal List<Dartboard> HighestCheckoutDartsThrown { get; } = [Dartboard.None, Dartboard.None, Dartboard.None];
+    internal int HundredEightyTallyCounter { get; private set; }
+
+    internal int HundredFortyPlusTallyCounter { get; private set; }
+
+    internal int HundredPlusTallyCounter { get; private set; }
 
     #endregion
 }
