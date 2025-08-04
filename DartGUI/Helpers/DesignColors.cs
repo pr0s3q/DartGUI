@@ -2,6 +2,8 @@
 {
     internal static class DesignColors
     {
+        public static readonly Color BAR_BACKGROUND_COLOR = Color.FromRgb(20, 24, 28);
+
         public static readonly Color BACKGROUND_COLOR = Color.FromRgb(30, 35, 41);
         public static readonly Color LIGHT_BACKGROUND_COLOR = Color.FromRgb(45, 52, 54);
 

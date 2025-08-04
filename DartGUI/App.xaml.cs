@@ -1,4 +1,5 @@
-﻿using DartGUI.Managers;
+﻿using DartGUI.Helpers;
+using DartGUI.Managers;
 using DartGUI.Pages;
 
 namespace DartGUI;
@@ -23,7 +24,13 @@ public partial class App
             var height = mainDisplayInfo.Width;
             ScaleManager.Create(width, height, mainDisplayInfo.Density);
         }
+    }
 
-        MainPage = new NavigationPage(new MainPage());
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(new NavigationPage(new MainPage())
+        {
+            BarBackgroundColor = DesignColors.BAR_BACKGROUND_COLOR
+        });
     }
 }
