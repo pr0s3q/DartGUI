@@ -17,10 +17,10 @@
       <ApplicationIdGuid>e57773ca-4bf6-45ae-a5d8-eefb7da054c7</ApplicationIdGuid>
 
       <!-- Versions -->
-      <ApplicationDisplayVersion>1.0.5</ApplicationDisplayVersion>
-      <ApplicationVersion>8</ApplicationVersion>
+      <ApplicationDisplayVersion>1.0.6</ApplicationDisplayVersion>
+      <ApplicationVersion>9</ApplicationVersion>
 
-      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">34.0</SupportedOSPlatformVersion>
+      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">35.0</SupportedOSPlatformVersion>
    </PropertyGroup>
 
    <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
